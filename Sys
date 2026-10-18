@@ -1,0 +1,5801 @@
+--========================================================
+-- PERFECT v1.2.0
+-- CHUNK 1A: SETUP, THEMES, HELPERS
+--========================================================
+
+Players = game:GetService("Players")
+UIS = game:GetService("UserInputService")
+TweenService = game:GetService("TweenService")
+
+Player = Players.LocalPlayer
+PlayerGui = Player:WaitForChild("PlayerGui")
+Camera = workspace.CurrentCamera
+
+local old = PlayerGui:FindFirstChild("PERFECT_GUI")
+if old then
+    old:Destroy()
+end
+
+PERFECT_URL = "https://raw.githubusercontent.com/royalpear7893-sketch/friendly-car/refs/heads/main/Car"
+
+THEMES = {
+    AURORA = {
+        Background = Color3.fromRGB(10, 22, 48),
+        Header = Color3.fromRGB(12, 39, 85),
+        Sidebar = Color3.fromRGB(13, 31, 68),
+        Content = Color3.fromRGB(18, 43, 91),
+        Blue = Color3.fromRGB(20, 115, 255),
+        Blue2 = Color3.fromRGB(25, 85, 210),
+        Cyan = Color3.fromRGB(77, 220, 255),
+        Violet = Color3.fromRGB(115, 90, 255),
+        Pink = Color3.fromRGB(235, 92, 190),
+        Selected = Color3.fromRGB(25, 105, 190),
+        Card = Color3.fromRGB(28, 65, 125),
+        Green = Color3.fromRGB(63, 226, 173),
+        Red = Color3.fromRGB(132, 45, 76),
+        Gray = Color3.fromRGB(164, 190, 225),
+        HeaderA = Color3.fromRGB(22, 93, 165),
+        HeaderB = Color3.fromRGB(26, 45, 115),
+        MainA = Color3.fromRGB(22, 55, 112),
+        MainB = Color3.fromRGB(9, 23, 55),
+        SidebarA = Color3.fromRGB(24, 57, 112),
+        SidebarB = Color3.fromRGB(11, 28, 65),
+        ContentA = Color3.fromRGB(35, 80, 150),
+        ContentB = Color3.fromRGB(13, 34, 76)
+    },
+    CRIMSON = {
+        Background = Color3.fromRGB(32, 8, 12),
+        Header = Color3.fromRGB(80, 12, 20),
+        Sidebar = Color3.fromRGB(60, 10, 18),
+        Content = Color3.fromRGB(85, 15, 25),
+        Blue = Color3.fromRGB(220, 30, 45),
+        Blue2 = Color3.fromRGB(160, 20, 35),
+        Cyan = Color3.fromRGB(255, 80, 80),
+        Violet = Color3.fromRGB(255, 130, 60),
+        Pink = Color3.fromRGB(255, 60, 130),
+        Selected = Color3.fromRGB(180, 30, 45),
+        Card = Color3.fromRGB(90, 20, 30),
+        Green = Color3.fromRGB(255, 170, 60),
+        Red = Color3.fromRGB(120, 20, 30),
+        Gray = Color3.fromRGB(220, 170, 170),
+        HeaderA = Color3.fromRGB(150, 25, 35),
+        HeaderB = Color3.fromRGB(90, 15, 25),
+        MainA = Color3.fromRGB(90, 18, 28),
+        MainB = Color3.fromRGB(30, 5, 10),
+        SidebarA = Color3.fromRGB(100, 20, 30),
+        SidebarB = Color3.fromRGB(55, 10, 15),
+        ContentA = Color3.fromRGB(130, 30, 40),
+        ContentB = Color3.fromRGB(70, 15, 22)
+    },
+    EMERALD = {
+        Background = Color3.fromRGB(8, 30, 20),
+        Header = Color3.fromRGB(10, 60, 40),
+        Sidebar = Color3.fromRGB(10, 50, 33),
+        Content = Color3.fromRGB(15, 70, 48),
+        Blue = Color3.fromRGB(30, 200, 120),
+        Blue2 = Color3.fromRGB(20, 140, 85),
+        Cyan = Color3.fromRGB(80, 255, 180),
+        Violet = Color3.fromRGB(130, 255, 130),
+        Pink = Color3.fromRGB(100, 220, 200),
+        Selected = Color3.fromRGB(25, 150, 95),
+        Card = Color3.fromRGB(20, 85, 58),
+        Green = Color3.fromRGB(80, 255, 150),
+        Red = Color3.fromRGB(180, 60, 90),
+        Gray = Color3.fromRGB(170, 220, 200),
+        HeaderA = Color3.fromRGB(25, 130, 85),
+        HeaderB = Color3.fromRGB(12, 60, 42),
+        MainA = Color3.fromRGB(20, 80, 55),
+        MainB = Color3.fromRGB(8, 28, 18),
+        SidebarA = Color3.fromRGB(22, 90, 60),
+        SidebarB = Color3.fromRGB(10, 40, 25),
+        ContentA = Color3.fromRGB(30, 110, 70),
+        ContentB = Color3.fromRGB(15, 50, 32)
+    },
+    VIOLET = {
+        Background = Color3.fromRGB(25, 10, 40),
+        Header = Color3.fromRGB(65, 20, 90),
+        Sidebar = Color3.fromRGB(50, 15, 70),
+        Content = Color3.fromRGB(70, 22, 100),
+        Blue = Color3.fromRGB(170, 80, 255),
+        Blue2 = Color3.fromRGB(120, 50, 200),
+        Cyan = Color3.fromRGB(220, 140, 255),
+        Violet = Color3.fromRGB(255, 100, 200),
+        Pink = Color3.fromRGB(255, 130, 220),
+        Selected = Color3.fromRGB(140, 60, 210),
+        Card = Color3.fromRGB(75, 28, 105),
+        Green = Color3.fromRGB(180, 255, 200),
+        Red = Color3.fromRGB(200, 50, 100),
+        Gray = Color3.fromRGB(210, 180, 230),
+        HeaderA = Color3.fromRGB(120, 40, 180),
+        HeaderB = Color3.fromRGB(70, 20, 110),
+        MainA = Color3.fromRGB(75, 25, 115),
+        MainB = Color3.fromRGB(25, 8, 40),
+        SidebarA = Color3.fromRGB(85, 30, 130),
+        SidebarB = Color3.fromRGB(50, 15, 75),
+        ContentA = Color3.fromRGB(100, 40, 155),
+        ContentB = Color3.fromRGB(60, 20, 90)
+    },
+    SUNSET = {
+        Background = Color3.fromRGB(40, 15, 10),
+        Header = Color3.fromRGB(120, 45, 20),
+        Sidebar = Color3.fromRGB(90, 30, 15),
+        Content = Color3.fromRGB(130, 50, 25),
+        Blue = Color3.fromRGB(255, 120, 40),
+        Blue2 = Color3.fromRGB(210, 80, 30),
+        Cyan = Color3.fromRGB(255, 190, 90),
+        Violet = Color3.fromRGB(255, 90, 120),
+        Pink = Color3.fromRGB(255, 100, 160),
+        Selected = Color3.fromRGB(220, 100, 40),
+        Card = Color3.fromRGB(140, 55, 30),
+        Green = Color3.fromRGB(255, 220, 120),
+        Red = Color3.fromRGB(200, 60, 60),
+        Gray = Color3.fromRGB(240, 200, 170),
+        HeaderA = Color3.fromRGB(200, 90, 40),
+        HeaderB = Color3.fromRGB(140, 50, 30),
+        MainA = Color3.fromRGB(150, 60, 30),
+        MainB = Color3.fromRGB(60, 20, 10),
+        SidebarA = Color3.fromRGB(170, 65, 30),
+        SidebarB = Color3.fromRGB(90, 32, 18),
+        ContentA = Color3.fromRGB(200, 85, 40),
+        ContentB = Color3.fromRGB(120, 45, 25)
+    },
+    MONO = {
+        Background = Color3.fromRGB(18, 18, 20),
+        Header = Color3.fromRGB(40, 40, 45),
+        Sidebar = Color3.fromRGB(30, 30, 35),
+        Content = Color3.fromRGB(45, 45, 50),
+        Blue = Color3.fromRGB(200, 200, 210),
+        Blue2 = Color3.fromRGB(150, 150, 160),
+        Cyan = Color3.fromRGB(245, 245, 255),
+        Violet = Color3.fromRGB(200, 200, 220),
+        Pink = Color3.fromRGB(230, 230, 240),
+        Selected = Color3.fromRGB(120, 120, 130),
+        Card = Color3.fromRGB(55, 55, 62),
+        Green = Color3.fromRGB(220, 220, 230),
+        Red = Color3.fromRGB(180, 80, 80),
+        Gray = Color3.fromRGB(180, 180, 190),
+        HeaderA = Color3.fromRGB(85, 85, 95),
+        HeaderB = Color3.fromRGB(45, 45, 52),
+        MainA = Color3.fromRGB(55, 55, 62),
+        MainB = Color3.fromRGB(20, 20, 24),
+        SidebarA = Color3.fromRGB(60, 60, 68),
+        SidebarB = Color3.fromRGB(32, 32, 38),
+        ContentA = Color3.fromRGB(75, 75, 85),
+        ContentB = Color3.fromRGB(42, 42, 48)
+    }
+}
+
+SelectedThemeName = "AURORA"
+
+pcall(function()
+    local saved = readfile("perfect_theme.txt")
+    if saved and saved ~= "" and THEMES[saved] then
+        SelectedThemeName = saved
+    end
+end)
+
+if _G.PERFECT_THEME and THEMES[_G.PERFECT_THEME] then
+    SelectedThemeName = _G.PERFECT_THEME
+end
+
+T = THEMES[SelectedThemeName] or THEMES.AURORA
+
+C = {
+    Black = Color3.fromRGB(0, 0, 0),
+    Background = T.Background,
+    Header = T.Header,
+    Sidebar = T.Sidebar,
+    Content = T.Content,
+    Blue = T.Blue,
+    Blue2 = T.Blue2,
+    Cyan = T.Cyan,
+    Violet = T.Violet,
+    Pink = T.Pink,
+    White = Color3.fromRGB(245, 249, 255),
+    Gray = T.Gray,
+    Selected = T.Selected,
+    Card = T.Card,
+    Green = T.Green,
+    Red = T.Red
+}
+
+function Create(class, props, parent)
+    local obj = Instance.new(class)
+    for key, value in pairs(props or {}) do
+        obj[key] = value
+    end
+    obj.Parent = parent
+    return obj
+end
+
+function Round(obj, radius)
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, radius)
+    corner.Parent = obj
+    return corner
+end
+
+function Outline(obj, color, thickness, transparency)
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = color
+    stroke.Thickness = thickness or 1
+    stroke.Transparency = transparency or 0
+    stroke.Parent = obj
+    return stroke
+end
+
+function MakeGradient(obj, first, second, rotation)
+    local gradient = Instance.new("UIGradient")
+    gradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, first),
+        ColorSequenceKeypoint.new(1, second)
+    })
+    gradient.Rotation = rotation or 0
+    gradient.Parent = obj
+    return gradient
+end
+
+function Animate(obj, properties, duration)
+    local tween = TweenService:Create(
+        obj,
+        TweenInfo.new(
+            duration or 0.2,
+            Enum.EasingStyle.Quart,
+            Enum.EasingDirection.Out
+        ),
+        properties
+    )
+    tween:Play()
+    return tween
+end
+
+function Label(parent, text, size, color, font)
+    return Create("TextLabel", {
+        BackgroundTransparency = 1,
+        Text = text,
+        TextColor3 = color or C.White,
+        TextSize = size or 14,
+        Font = font or Enum.Font.Gotham,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        TextYAlignment = Enum.TextYAlignment.Center,
+        TextWrapped = true
+    }, parent)
+end
+
+function GetSize()
+    local viewport = Camera.ViewportSize
+    local width = math.min(590, math.floor(viewport.X * 0.88))
+    local height = math.min(380, math.floor(viewport.Y * 0.78))
+    width = math.max(280, width)
+    height = math.max(270, height)
+    return width, height
+end
+
+windowWidth, windowHeight = GetSize()
+--========================================================
+-- PART 2: SCREEN GUI & MAIN WINDOW
+--========================================================
+
+GUI = Create("ScreenGui", {
+    Name = "PERFECT_GUI",
+    ResetOnSpawn = false,
+    IgnoreGuiInset = true,
+    DisplayOrder = 999,
+    ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+}, PlayerGui)
+
+OpenerGlow = Create("Frame", {
+    Name = "OpenerGlow",
+    Size = UDim2.fromOffset(204, 56),
+    Position = UDim2.new(0.5, 0, 0, 9),
+    AnchorPoint = Vector2.new(0.5, 0),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.78,
+    BorderSizePixel = 0,
+    ZIndex = 19
+}, GUI)
+
+Round(OpenerGlow, 17)
+Outline(OpenerGlow, C.Cyan, 3, 0.45)
+
+Opener = Create("Frame", {
+    Name = "PerfectOpener",
+    Size = UDim2.fromOffset(196, 48),
+    Position = UDim2.new(0.5, 0, 0, 13),
+    AnchorPoint = Vector2.new(0.5, 0),
+    BackgroundColor3 = C.Blue,
+    BorderSizePixel = 0,
+    ZIndex = 20
+}, GUI)
+
+Round(Opener, 14)
+
+OpenerGradient = MakeGradient(Opener, C.Blue2, C.Violet, 0)
+OpenerStroke = Outline(Opener, C.Cyan, 2, 0.08)
+
+DragHandle = Create("TextButton", {
+    Name = "DragHandle",
+    Size = UDim2.fromOffset(38, 48),
+    Position = UDim2.fromOffset(0, 0),
+    BackgroundTransparency = 1,
+    Text = "",
+    AutoButtonColor = false,
+    BorderSizePixel = 0,
+    ZIndex = 22
+}, Opener)
+
+for i = 1, 3 do
+    local Line = Create("Frame", {
+        Name = "DragLine" .. i,
+        Size = UDim2.fromOffset(17, 2),
+        Position = UDim2.new(0, 10, 0, 17 + (i - 1) * 6),
+        BackgroundColor3 = C.Cyan,
+        BorderSizePixel = 0,
+        ZIndex = 23
+    }, DragHandle)
+    Round(Line, 2)
+end
+
+OpenButton = Create("TextButton", {
+    Name = "OpenButton",
+    Size = UDim2.new(1, -38, 1, 0),
+    Position = UDim2.fromOffset(38, 0),
+    BackgroundTransparency = 1,
+    Text = "",
+    TextTransparency = 1,
+    AutoButtonColor = false,
+    BorderSizePixel = 0,
+    ZIndex = 21
+}, Opener)
+
+OpenerTitle = Create("TextLabel", {
+    Size = UDim2.new(1, -48, 0, 21),
+    Position = UDim2.fromOffset(11, 5),
+    BackgroundTransparency = 1,
+    Text = "P E R F E C T",
+    TextColor3 = C.White,
+    TextSize = 12,
+    Font = Enum.Font.GothamBold,
+    TextXAlignment = Enum.TextXAlignment.Left,
+    ZIndex = 23
+}, OpenButton)
+
+Status = Create("TextLabel", {
+    Size = UDim2.new(1, -48, 0, 13),
+    Position = UDim2.fromOffset(12, 27),
+    BackgroundTransparency = 1,
+    Text = "●  NEURAL INTERFACE  /  ONLINE",
+    TextColor3 = C.Cyan,
+    TextSize = 7,
+    Font = Enum.Font.GothamBold,
+    TextXAlignment = Enum.TextXAlignment.Left,
+    ZIndex = 23
+}, OpenButton)
+
+PowerIcon = Create("Frame", {
+    Name = "PowerIcon",
+    Size = UDim2.fromOffset(30, 38),
+    Position = UDim2.new(1, -34, 0.5, -19),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    ZIndex = 23
+}, OpenButton)
+
+PowerRing = Create("Frame", {
+    Size = UDim2.fromOffset(19, 19),
+    Position = UDim2.new(0.5, -9, 0.5, -7),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    ZIndex = 24
+}, PowerIcon)
+
+Round(PowerRing, 20)
+Outline(PowerRing, C.Cyan, 2, 0)
+
+PowerGap = Create("Frame", {
+    Size = UDim2.fromOffset(9, 5),
+    Position = UDim2.new(0.5, -4, 0.5, -9),
+    BackgroundColor3 = C.Blue,
+    BorderSizePixel = 0,
+    ZIndex = 25
+}, PowerIcon)
+
+PowerLine = Create("Frame", {
+    Size = UDim2.fromOffset(2, 12),
+    Position = UDim2.new(0.5, -1, 0.5, -15),
+    BackgroundColor3 = C.Cyan,
+    BorderSizePixel = 0,
+    ZIndex = 26
+}, PowerIcon)
+
+Round(PowerLine, 2)
+
+OpenerAccent = Create("Frame", {
+    Size = UDim2.new(0.48, 0, 0, 2),
+    Position = UDim2.new(0.28, 0, 1, -2),
+    BackgroundColor3 = C.Cyan,
+    BorderSizePixel = 0,
+    ZIndex = 24
+}, Opener)
+
+Round(OpenerAccent, 2)
+
+draggingOpener = false
+dragStart = nil
+openerStart = nil
+
+DragHandle.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1
+    or input.UserInputType == Enum.UserInputType.Touch then
+        draggingOpener = true
+        dragStart = input.Position
+        openerStart = Opener.Position
+    end
+end)
+
+UIS.InputChanged:Connect(function(input)
+    if not draggingOpener then return end
+    if input.UserInputType == Enum.UserInputType.MouseMovement
+    or input.UserInputType == Enum.UserInputType.Touch then
+        local delta = input.Position - dragStart
+        local newPosition = UDim2.new(
+            openerStart.X.Scale,
+            openerStart.X.Offset + delta.X,
+            openerStart.Y.Scale,
+            openerStart.Y.Offset + delta.Y
+        )
+        Opener.Position = newPosition
+        OpenerGlow.Position = UDim2.new(
+            newPosition.X.Scale,
+            newPosition.X.Offset,
+            newPosition.Y.Scale,
+            newPosition.Y.Offset - 4
+        )
+    end
+end)
+
+UIS.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1
+    or input.UserInputType == Enum.UserInputType.Touch then
+        draggingOpener = false
+    end
+end)
+
+Main = Create("Frame", {
+    Name = "MainWindow",
+    Size = UDim2.fromOffset(windowWidth, windowHeight),
+    Position = UDim2.new(0.5, 0, 0.5, 0),
+    AnchorPoint = Vector2.new(0.5, 0.5),
+    BackgroundColor3 = C.Background,
+    BackgroundTransparency = 0.04,
+    BorderSizePixel = 0,
+    ClipsDescendants = true,
+    Visible = false
+}, GUI)
+
+Round(Main, 19)
+
+MainStroke = Outline(Main, C.Cyan, 2, 0.12)
+MakeGradient(Main, T.MainA, T.MainB, 45)
+
+Header = Create("Frame", {
+    Name = "Header",
+    Size = UDim2.new(1, 0, 0, 76),
+    BackgroundColor3 = C.Header,
+    BackgroundTransparency = 0.02,
+    BorderSizePixel = 0,
+    ZIndex = 2
+}, Main)
+
+Round(Header, 19)
+MakeGradient(Header, T.HeaderA, T.HeaderB, 0)
+
+Accent = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 2),
+    Position = UDim2.new(0, 0, 1, -2),
+    BackgroundColor3 = C.Cyan,
+    BorderSizePixel = 0,
+    ZIndex = 4
+}, Header)
+
+MakeGradient(Accent, C.Cyan, C.Violet, 0)
+
+Title = Label(Header, "PERFECT", 23, C.White, Enum.Font.GothamBold)
+Title.Position = UDim2.fromOffset(17, 8)
+Title.Size = UDim2.new(0.55, 0, 0, 30)
+MakeGradient(Title, C.Cyan, C.Violet, 0)
+
+Subtitle = Label(Header, "NEON AURORA  /  CUSTOM INTERFACE", 9, C.Gray)
+Subtitle.Position = UDim2.fromOffset(19, 42)
+Subtitle.Size = UDim2.new(0.62, 0, 0, 18)
+
+BadgeHolder = Create("Frame", {
+    Size = UDim2.fromOffset(139, 29),
+    Position = UDim2.new(1, -213, 0.5, -14),
+    BackgroundTransparency = 1,
+    ZIndex = 5
+}, Header)
+
+BadgeLayout = Create("UIListLayout", {
+    FillDirection = Enum.FillDirection.Horizontal,
+    Padding = UDim.new(0, 6),
+    VerticalAlignment = Enum.VerticalAlignment.Center
+}, BadgeHolder)
+
+function Badge(text, width, color)
+    local b = Create("TextLabel", {
+        Size = UDim2.fromOffset(width, 27),
+        BackgroundColor3 = color,
+        Text = text,
+        TextColor3 = C.White,
+        TextSize = 10,
+        Font = Enum.Font.GothamBold,
+        BorderSizePixel = 0,
+        ZIndex = 5
+    }, BadgeHolder)
+    Round(b, 14)
+    return b
+end
+
+Badge("v1.2.0", 66, C.Blue2)
+Badge("FREE", 66, Color3.fromRGB(20, 110, 160))
+
+function HeaderButton(color)
+    local button = Create("TextButton", {
+        Size = UDim2.fromOffset(30, 30),
+        BackgroundColor3 = color,
+        Text = "",
+        TextTransparency = 1,
+        BorderSizePixel = 0,
+        AutoButtonColor = false,
+        ZIndex = 8
+    }, Header)
+    Round(button, 9)
+    return button
+end
+
+Maximize = HeaderButton(Color3.fromRGB(30, 95, 165))
+Maximize.Position = UDim2.new(1, -68, 0.5, -15)
+
+MaxIcon = Create("Frame", {
+    Size = UDim2.fromOffset(13, 13),
+    Position = UDim2.new(0.5, -6, 0.5, -6),
+    BackgroundTransparency = 1,
+    ZIndex = 9
+}, Maximize)
+
+function CornerLine(parent, size, position)
+    return Create("Frame", {
+        Size = size,
+        Position = position,
+        BackgroundColor3 = C.White,
+        BorderSizePixel = 0,
+        ZIndex = 10
+    }, parent)
+end
+
+CornerLine(MaxIcon, UDim2.fromOffset(5, 2), UDim2.fromOffset(0, 0))
+CornerLine(MaxIcon, UDim2.fromOffset(2, 5), UDim2.fromOffset(0, 0))
+CornerLine(MaxIcon, UDim2.fromOffset(5, 2), UDim2.new(1, -5, 0, 0))
+CornerLine(MaxIcon, UDim2.fromOffset(2, 5), UDim2.new(1, -2, 0, 0))
+CornerLine(MaxIcon, UDim2.fromOffset(5, 2), UDim2.new(0, 0, 1, -2))
+CornerLine(MaxIcon, UDim2.fromOffset(2, 5), UDim2.new(0, 0, 1, -5))
+CornerLine(MaxIcon, UDim2.fromOffset(5, 2), UDim2.new(1, -5, 1, -2))
+CornerLine(MaxIcon, UDim2.fromOffset(2, 5), UDim2.new(1, -2, 1, -5))
+
+Close = Create("TextButton", {
+    Size = UDim2.fromOffset(30, 30),
+    Position = UDim2.new(1, -34, 0.5, -15),
+    BackgroundColor3 = C.Red,
+    Text = "×",
+    TextColor3 = C.White,
+    TextSize = 20,
+    Font = Enum.Font.GothamBold,
+    BorderSizePixel = 0,
+    AutoButtonColor = false,
+    ZIndex = 8
+}, Header)
+
+Round(Close, 9)
+--========================================================
+-- PART 3: BODY, SIDEBAR & SEARCH
+--========================================================
+
+if windowWidth < 460 then
+    BadgeHolder.Visible = false
+end
+
+Body = Create("Frame", {
+    Size = UDim2.new(1, -16, 1, -90),
+    Position = UDim2.fromOffset(8, 82),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0
+}, Main)
+
+Sidebar = Create("Frame", {
+    Name = "Sidebar",
+    Size = UDim2.new(0, 135, 1, 0),
+    BackgroundColor3 = C.Sidebar,
+    BackgroundTransparency = 0.02,
+    BorderSizePixel = 0
+}, Body)
+
+Round(Sidebar, 14)
+Outline(Sidebar, C.Cyan, 1, 0.65)
+MakeGradient(Sidebar, T.SidebarA, T.SidebarB, 90)
+
+Content = Create("Frame", {
+    Name = "Content",
+    Size = UDim2.new(1, -143, 1, 0),
+    Position = UDim2.new(0, 143, 0, 0),
+    BackgroundColor3 = C.Content,
+    BackgroundTransparency = 0.02,
+    BorderSizePixel = 0,
+    ClipsDescendants = true
+}, Body)
+
+Round(Content, 14)
+Outline(Content, C.Cyan, 1, 0.58)
+MakeGradient(Content, T.ContentA, T.ContentB, 45)
+
+SearchFrame = Create("Frame", {
+    Size = UDim2.new(1, -18, 0, 42),
+    Position = UDim2.fromOffset(9, 11),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.02,
+    BorderSizePixel = 0
+}, Sidebar)
+
+Round(SearchFrame, 11)
+Outline(SearchFrame, C.Cyan, 1, 0.55)
+
+SearchIcon = Create("Frame", {
+    Size = UDim2.fromOffset(32, 42),
+    Position = UDim2.fromOffset(0, 0),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0
+}, SearchFrame)
+
+SearchCircle = Create("Frame", {
+    Size = UDim2.fromOffset(13, 13),
+    Position = UDim2.fromOffset(8, 12),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0
+}, SearchIcon)
+
+Round(SearchCircle, 20)
+Outline(SearchCircle, C.Cyan, 2, 0)
+
+SearchHandle = Create("Frame", {
+    Size = UDim2.fromOffset(8, 2),
+    Position = UDim2.fromOffset(19, 25),
+    Rotation = 45,
+    BackgroundColor3 = C.Cyan,
+    BorderSizePixel = 0
+}, SearchIcon)
+
+Round(SearchHandle, 2)
+
+SearchBox = Create("TextBox", {
+    Size = UDim2.new(1, -39, 1, 0),
+    Position = UDim2.fromOffset(36, 0),
+    BackgroundTransparency = 1,
+    Text = "",
+    PlaceholderText = "Search pages...",
+    PlaceholderColor3 = C.Gray,
+    TextColor3 = C.White,
+    TextSize = 12,
+    Font = Enum.Font.Gotham,
+    TextXAlignment = Enum.TextXAlignment.Left,
+    ClearTextOnFocus = false
+}, SearchFrame)
+
+--========================================================
+-- CHUNK 2: PAGE SYSTEM
+--========================================================
+
+Create = function(class, props, parent)
+    local obj = Instance.new(class)
+    for key, value in pairs(props or {}) do
+        if key ~= "Parent" then
+            obj[key] = value
+        end
+    end
+    obj.Parent = parent or props.Parent
+    return obj
+end
+
+Pages = {}
+Tabs = {}
+BackButtons = {}
+
+CurrentPage = "Scripts"
+
+function CreatePage(name)
+    local Page = Create("ScrollingFrame", {
+        Name = name .. "Page",
+        Size = UDim2.new(1, -18, 1, -18),
+        Position = UDim2.fromOffset(9, 9),
+        BackgroundTransparency = 1,
+        BorderSizePixel = 0,
+        CanvasSize = UDim2.new(0, 0, 0, 0),
+        AutomaticCanvasSize = Enum.AutomaticSize.Y,
+        ScrollBarThickness = 3,
+        ScrollBarImageColor3 = C.Cyan,
+        Visible = false
+    }, Content)
+
+    Create("UIPadding", {
+        PaddingTop = UDim.new(0, 4),
+        PaddingBottom = UDim.new(0, 10),
+        PaddingLeft = UDim.new(0, 2),
+        PaddingRight = UDim.new(0, 2)
+    }, Page)
+
+    Create("UIListLayout", {
+        Padding = UDim.new(0, 9),
+        SortOrder = Enum.SortOrder.LayoutOrder
+    }, Page)
+
+    Pages[name] = Page
+    return Page
+end
+
+function AddText(parent, text, size, color, font)
+    local LabelObject = Create("TextLabel", {
+        Size = UDim2.new(1, 0, 0, size or 30),
+        BackgroundTransparency = 1,
+        Text = text,
+        TextColor3 = color or C.White,
+        TextSize = 13,
+        Font = font or Enum.Font.Gotham,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        TextYAlignment = Enum.TextYAlignment.Center,
+        TextWrapped = true
+    }, parent)
+    return LabelObject
+end
+
+function MakeCard(parent, height)
+    local Card = Create("Frame", {
+        Size = UDim2.new(1, 0, 0, height or 70),
+        BackgroundColor3 = C.Card,
+        BackgroundTransparency = 0.08,
+        BorderSizePixel = 0
+    }, parent)
+    Round(Card, 12)
+    Outline(Card, C.Cyan, 1, 0.7)
+    return Card
+end
+
+function MakeGameEntry(parent, title, subtitle)
+    local Entry = Create("TextButton", {
+        Size = UDim2.new(1, 0, 0, 62),
+        BackgroundColor3 = C.Card,
+        BackgroundTransparency = 0.04,
+        BorderSizePixel = 0,
+        Text = "",
+        AutoButtonColor = false
+    }, parent)
+    Round(Entry, 11)
+    Outline(Entry, C.Cyan, 1, 0.72)
+    Create("TextLabel", {
+        Size = UDim2.new(1, -20, 0, 24),
+        Position = UDim2.fromOffset(10, 7),
+        BackgroundTransparency = 1,
+        Text = title,
+        TextColor3 = C.White,
+        TextSize = 13,
+        Font = Enum.Font.GothamBold,
+        TextXAlignment = Enum.TextXAlignment.Left
+    }, Entry)
+    Create("TextLabel", {
+        Size = UDim2.new(1, -20, 0, 20),
+        Position = UDim2.fromOffset(10, 31),
+        BackgroundTransparency = 1,
+        Text = subtitle or "",
+        TextColor3 = C.Gray,
+        TextSize = 10,
+        Font = Enum.Font.Gotham,
+        TextXAlignment = Enum.TextXAlignment.Left
+    }, Entry)
+    return Entry
+end
+
+function MakeBackButton(parent, callback)
+    local Back = Create("TextButton", {
+        Size = UDim2.new(1, 0, 0, 38),
+        BackgroundColor3 = C.Card,
+        Text = "‹   BACK",
+        TextColor3 = C.Cyan,
+        TextSize = 11,
+        Font = Enum.Font.GothamBold,
+        BorderSizePixel = 0,
+        AutoButtonColor = false
+    }, parent)
+    Round(Back, 10)
+    Outline(Back, C.Cyan, 1, 0.6)
+    Back.MouseButton1Click:Connect(function()
+        if callback then
+            callback()
+        end
+    end)
+    return Back
+end
+
+function MakeToggle(parent, text, default, callback)
+    local Holder = Create("Frame", {
+        Size = UDim2.new(1, 0, 0, 48),
+        BackgroundColor3 = C.Card,
+        BackgroundTransparency = 0.04,
+        BorderSizePixel = 0
+    }, parent)
+    Round(Holder, 10)
+    Outline(Holder, C.Cyan, 1, 0.72)
+    Create("TextLabel", {
+        Size = UDim2.new(1, -70, 1, 0),
+        Position = UDim2.fromOffset(12, 0),
+        BackgroundTransparency = 1,
+        Text = text,
+        TextColor3 = C.White,
+        TextSize = 12,
+        Font = Enum.Font.GothamBold,
+        TextXAlignment = Enum.TextXAlignment.Left
+    }, Holder)
+    local Toggle = Create("TextButton", {
+        Size = UDim2.fromOffset(42, 22),
+        Position = UDim2.new(1, -53, 0.5, -11),
+        BackgroundColor3 = default and C.Blue or C.Background,
+        Text = "",
+        BorderSizePixel = 0,
+        AutoButtonColor = false
+    }, Holder)
+    Round(Toggle, 12)
+    Outline(Toggle, C.Cyan, 1, 0.45)
+    local Knob = Create("Frame", {
+        Size = UDim2.fromOffset(16, 16),
+        Position = default and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3),
+        BackgroundColor3 = C.White,
+        BorderSizePixel = 0
+    }, Toggle)
+    Round(Knob, 20)
+    local Enabled = default
+    Toggle.MouseButton1Click:Connect(function()
+        Enabled = not Enabled
+        Animate(Toggle, { BackgroundColor3 = Enabled and C.Blue or C.Background })
+        Animate(Knob, { Position = Enabled and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3) })
+        if callback then callback(Enabled) end
+    end)
+    return Holder
+end
+--========================================================
+-- PART 4: PAGE DEFINITIONS & PREMIUM SELECTOR
+--========================================================
+
+ScriptsPage = CreatePage("Scripts")
+AddText(ScriptsPage, "SCRIPT HUB", 32, C.Cyan, Enum.Font.GothamBold)
+AddText(ScriptsPage, "Game utilities and supported interfaces", 22, C.Gray)
+
+MM2Page = CreatePage("Murder Mystery 2")
+AddText(MM2Page, "MURDER MYSTERY 2", 32, C.Cyan, Enum.Font.GothamBold)
+AddText(MM2Page, "Player information and visual utilities", 22, C.Gray)
+
+MM2BackButton = MakeBackButton(MM2Page, function() SelectPage("Scripts") end)
+table.insert(BackButtons, MM2BackButton)
+ESPEnabled = false
+MakeToggle(MM2Page, "ESP", false, function(state) ESPEnabled = state end)
+MM2Entry = MakeGameEntry(ScriptsPage, "Murder Mystery 2", "Player information and visual utilities")
+
+HomePage = CreatePage("Home")
+
+UtilitiesPage = CreatePage("Utilities")
+AddText(UtilitiesPage, "UTILITIES", 32, C.Cyan, Enum.Font.GothamBold)
+AddText(UtilitiesPage, "Useful interface controls and tools", 22, C.Gray)
+
+SettingsPage = CreatePage("Settings")
+AddText(SettingsPage, "SETTINGS", 32, C.Cyan, Enum.Font.GothamBold)
+AddText(SettingsPage, "Customize your PERFECT experience", 22, C.Gray)
+
+AboutPage = CreatePage("About")
+AddText(AboutPage, "ABOUT PERFECT", 32, C.Cyan, Enum.Font.GothamBold)
+AddText(AboutPage, "PERFECT v1.2.0 — NEON AURORA EDITION", 22, C.White, Enum.Font.GothamBold)
+AboutCard = MakeCard(AboutPage, 100)
+AddText(AboutCard, "Standalone visual interface", 13, C.Cyan, Enum.Font.GothamBold).Position = UDim2.fromOffset(12, 10)
+AddText(AboutCard, "Designed with a futuristic neon-blue interface and mobile-friendly layout.", 11, C.Gray).Position = UDim2.fromOffset(12, 36)
+
+--========================================================
+-- PREMIUM PLAYER SELECTOR HELPER
+--========================================================
+
+function MakePremiumSelector(parent, yPos, title, onSelect)
+    local Card = Create("Frame", {
+        Size = UDim2.new(1, -12, 0, 240),
+        Position = UDim2.new(0, 6, 0, yPos),
+        BackgroundColor3 = C.Card,
+        BackgroundTransparency = 0.06,
+        BorderSizePixel = 0
+    }, parent)
+    Round(Card, 12)
+    Outline(Card, C.Blue, 1, 0.4)
+
+    Create("TextLabel", {
+        Size = UDim2.new(1, -20, 0, 20),
+        Position = UDim2.fromOffset(12, 6),
+        BackgroundTransparency = 1,
+        Text = title,
+        TextColor3 = C.Cyan,
+        Font = Enum.Font.GothamBold,
+        TextSize = 11,
+        TextXAlignment = Enum.TextXAlignment.Left
+    }, Card)
+
+    local SearchBox = Create("TextBox", {
+        Size = UDim2.new(1, -24, 0, 30),
+        Position = UDim2.new(0, 12, 0, 32),
+        BackgroundColor3 = C.Background,
+        BackgroundTransparency = 0.15,
+        BorderSizePixel = 0,
+        Text = "",
+        PlaceholderText = "Search players...",
+        PlaceholderColor3 = C.Gray,
+        TextColor3 = C.White,
+        TextSize = 10,
+        Font = Enum.Font.Gotham,
+        ClearTextOnFocus = false
+    }, Card)
+    Round(SearchBox, 8)
+    Outline(SearchBox, C.Blue, 1, 0.45)
+
+    local Scroll = Create("ScrollingFrame", {
+        Size = UDim2.new(1, -24, 0, 150),
+        Position = UDim2.new(0, 12, 0, 72),
+        BackgroundTransparency = 1,
+        BorderSizePixel = 0,
+        CanvasSize = UDim2.new(0, 0, 0, 0),
+        AutomaticCanvasSize = Enum.AutomaticSize.Y,
+        ScrollBarThickness = 2,
+        ScrollBarImageColor3 = C.Cyan
+    }, Card)
+
+    Create("UIListLayout", {
+        Padding = UDim.new(0, 6),
+        SortOrder = Enum.SortOrder.LayoutOrder
+    }, Scroll)
+
+    local SelectedPlayer = nil
+    local rows = {}
+
+    local function RefreshList()
+        for _, child in ipairs(Scroll:GetChildren()) do
+            if child:IsA("TextButton") then child:Destroy() end
+        end
+        rows = {}
+        local query = string.lower(SearchBox.Text)
+
+        for _, p in ipairs(Players:GetPlayers()) do
+            if p ~= Player and string.find(string.lower(p.Name), query, 1, true) then
+                local row = Create("TextButton", {
+                    Size = UDim2.new(1, 0, 0, 40),
+                    BackgroundColor3 = C.Background,
+                    BorderSizePixel = 0,
+                    AutoButtonColor = false,
+                    Text = ""
+                }, Scroll)
+                Round(row, 8)
+                local stroke = Outline(row, C.Blue, 1, 0.6)
+
+                local avatar = Create("ImageLabel", {
+                    Size = UDim2.fromOffset(28, 28),
+                    Position = UDim2.new(0, 6, 0.5, -14),
+                    BackgroundColor3 = C.Card,
+                    Image = "",
+                    BorderSizePixel = 0
+                }, row)
+                Round(avatar, 14)
+
+                task.spawn(function()
+                    local success, img = pcall(function()
+                        return Players:GetUserThumbnailAsync(p.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size48x48)
+                    end)
+                    if success and avatar.Parent then
+                        avatar.Image = img
+                    end
+                end)
+
+                local nameLbl = Create("TextLabel", {
+                    Size = UDim2.new(1, -50, 0, 14),
+                    Position = UDim2.fromOffset(42, 6),
+                    BackgroundTransparency = 1,
+                    Text = p.Name,
+                    TextColor3 = C.White,
+                    Font = Enum.Font.GothamBold,
+                    TextSize = 10,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                }, row)
+
+                local hpLbl = Create("TextLabel", {
+                    Size = UDim2.new(1, -50, 0, 12),
+                    Position = UDim2.fromOffset(42, 22),
+                    BackgroundTransparency = 1,
+                    Text = "HP: --",
+                    TextColor3 = C.Gray,
+                    Font = Enum.Font.Gotham,
+                    TextSize = 8,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                }, row)
+
+                task.spawn(function()
+                    while row.Parent do
+                        local hum = p.Character and p.Character:FindFirstChildOfClass("Humanoid")
+                        if hum then
+                            hpLbl.Text = "HP: " .. math.floor(hum.Health) .. "/" .. math.floor(hum.MaxHealth)
+                            hpLbl.TextColor3 = hum.Health > 0 and C.Green or C.Red
+                        else
+                            hpLbl.Text = "HP: DEAD"
+                            hpLbl.TextColor3 = C.Red
+                        end
+                        task.wait(0.5)
+                    end
+                end)
+
+                row.MouseButton1Click:Connect(function()
+                    SelectedPlayer = p
+                    for _, r in ipairs(Scroll:GetChildren()) do
+                        if r:IsA("TextButton") then
+                            r.BackgroundColor3 = C.Background
+                            local s = r:FindFirstChildOfClass("UIStroke")
+                            if s then s.Transparency = 0.6 end
+                        end
+                    end
+                    row.BackgroundColor3 = C.Selected
+                    stroke.Transparency = 0.15
+                    onSelect(p)
+                end)
+            end
+        end
+    end
+
+    SearchBox:GetPropertyChangedSignal("Text"):Connect(RefreshList)
+    RefreshList()
+    Players.PlayerAdded:Connect(RefreshList)
+    Players.PlayerRemoving:Connect(RefreshList)
+
+    return Card, Scroll, SearchBox
+end
+
+print("PERFECT PREMIUM SELECTOR HELPER LOADED")
+--========================================================
+-- PART 5: ADVANCED AIMBOT UI (PART 1)
+--========================================================
+
+AimPriority = "Nearest Player"
+AimTargetPart = "Head"
+AimModeCamera = false
+AimModeCharacter = false
+AimModeSilent = false
+AimFOVSize = 150
+AimTargetMode = "AUTO"
+AimManualTarget = nil
+AimActive = false
+AimStatusText = "● AIMBOT OFF"
+AimLockedPlayer = nil
+
+AimRoot = Create("Frame", {
+    Name = "AdvancedAimbotRoot",
+    Size = UDim2.new(1, 0, 0, 780),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    LayoutOrder = 1
+}, HomePage)
+
+AimHeader = Create("Frame", {
+    Name = "AimHeader",
+    Size = UDim2.new(1, -12, 0, 62),
+    Position = UDim2.new(0, 6, 0, 4),
+    BackgroundColor3 = C.Header,
+    BorderSizePixel = 0
+}, AimRoot)
+
+Round(AimHeader, 12)
+Outline(AimHeader, C.Cyan, 1, 0.2)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 30),
+    Position = UDim2.new(0, 12, 0, 5),
+    BackgroundTransparency = 1,
+    Text = "ADVANCED AIMBOT",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 20,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, AimHeader)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.new(0, 12, 0, 35),
+    BackgroundTransparency = 1,
+    Text = "PRIORITY · AIM PART · MODES · SILENT",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, AimHeader)
+
+-- Priority Card
+PriorityCard = Create("Frame", {
+    Size = UDim2.new(1, -12, 0, 90),
+    Position = UDim2.new(0, 6, 0, 76),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, AimRoot)
+
+Round(PriorityCard, 12)
+Outline(PriorityCard, C.Cyan, 1, 0.5)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 20),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "PRIORITY  (choose one)",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, PriorityCard)
+
+PriorityRow = Create("Frame", {
+    Size = UDim2.new(1, -20, 0, 40),
+    Position = UDim2.new(0, 10, 0, 34),
+    BackgroundTransparency = 1
+}, PriorityCard)
+
+Create("UIListLayout", {
+    FillDirection = Enum.FillDirection.Horizontal,
+    Padding = UDim.new(0, 8),
+    VerticalAlignment = Enum.VerticalAlignment.Center
+}, PriorityRow)
+
+PriorityButtons = {}
+
+function MakePriorityButton(label, value, index)
+    local btn = Create("TextButton", {
+        Size = UDim2.new(0.5, -4, 1, 0),
+        BackgroundColor3 = C.Background,
+        Text = "",
+        BorderSizePixel = 0,
+        AutoButtonColor = false,
+        LayoutOrder = index
+    }, PriorityRow)
+    Round(btn, 8)
+    Outline(btn, C.Cyan, 1, 0.6)
+    
+    Create("TextLabel", {
+        Size = UDim2.new(1, 0, 1, 0),
+        BackgroundTransparency = 1,
+        Text = label,
+        TextColor3 = C.White,
+        Font = Enum.Font.GothamBold,
+        TextSize = 10
+    }, btn)
+    
+    btn.MouseButton1Click:Connect(function()
+        AimPriority = value
+        for _, b in ipairs(PriorityButtons) do
+            b.BackgroundColor3 = C.Background
+            local s = b:FindFirstChildOfClass("UIStroke")
+            if s then s.Transparency = 0.6 end
+        end
+        btn.BackgroundColor3 = C.Blue
+        local s = btn:FindFirstChildOfClass("UIStroke")
+        if s then s.Transparency = 0.15 end
+    end)
+    
+    table.insert(PriorityButtons, btn)
+    return btn
+end
+
+MakePriorityButton("NEAREST PLAYER", "Nearest Player", 1)
+MakePriorityButton("NEAREST CROSSHAIR", "Nearest Crosshair", 2)
+PriorityButtons[1].BackgroundColor3 = C.Blue
+local s1 = PriorityButtons[1]:FindFirstChildOfClass("UIStroke")
+if s1 then s1.Transparency = 0.15 end
+
+-- Aim Part Card
+PartCard = Create("Frame", {
+    Size = UDim2.new(1, -12, 0, 90),
+    Position = UDim2.new(0, 6, 0, 176),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, AimRoot)
+
+Round(PartCard, 12)
+Outline(PartCard, C.Cyan, 1, 0.5)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 20),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "AIM PART  (choose one)",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, PartCard)
+
+PartRow = Create("Frame", {
+    Size = UDim2.new(1, -20, 0, 40),
+    Position = UDim2.new(0, 10, 0, 34),
+    BackgroundTransparency = 1
+}, PartCard)
+
+Create("UIListLayout", {
+    FillDirection = Enum.FillDirection.Horizontal,
+    Padding = UDim.new(0, 8),
+    VerticalAlignment = Enum.VerticalAlignment.Center
+}, PartRow)
+
+PartButtons = {}
+
+function MakePartButton(label, value, index)
+    local btn = Create("TextButton", {
+        Size = UDim2.new(0.5, -4, 1, 0),
+        BackgroundColor3 = C.Background,
+        Text = "",
+        BorderSizePixel = 0,
+        AutoButtonColor = false,
+        LayoutOrder = index
+    }, PartRow)
+    Round(btn, 8)
+    Outline(btn, C.Cyan, 1, 0.6)
+    
+    Create("TextLabel", {
+        Size = UDim2.new(1, 0, 1, 0),
+        BackgroundTransparency = 1,
+        Text = label,
+        TextColor3 = C.White,
+        Font = Enum.Font.GothamBold,
+        TextSize = 10
+    }, btn)
+    
+    btn.MouseButton1Click:Connect(function()
+        AimTargetPart = value
+        for _, b in ipairs(PartButtons) do
+            b.BackgroundColor3 = C.Background
+            local s = b:FindFirstChildOfClass("UIStroke")
+            if s then s.Transparency = 0.6 end
+        end
+        btn.BackgroundColor3 = C.Blue
+        local s = btn:FindFirstChildOfClass("UIStroke")
+        if s then s.Transparency = 0.15 end
+    end)
+    
+    table.insert(PartButtons, btn)
+    return btn
+end
+
+MakePartButton("HEAD", "Head", 1)
+MakePartButton("HUMANOID ROOT", "HumanoidRootPart", 2)
+PartButtons[1].BackgroundColor3 = C.Blue
+local sp = PartButtons[1]:FindFirstChildOfClass("UIStroke")
+if sp then sp.Transparency = 0.15 end
+
+-- Modes Card
+ModesCard = Create("Frame", {
+    Size = UDim2.new(1, -12, 0, 130),
+    Position = UDim2.new(0, 6, 0, 276),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, AimRoot)
+
+Round(ModesCard, 12)
+Outline(ModesCard, C.Cyan, 1, 0.5)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 20),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "MODES  (Camera & Character stack · Silent is separate)",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, ModesCard)
+--========================================================
+-- PART 6: ADVANCED AIMBOT UI (PART 2)
+--========================================================
+
+CameraModeRow = Create("Frame", { Size = UDim2.new(1, -20, 0, 28), Position = UDim2.fromOffset(12, 32), BackgroundTransparency = 1 }, ModesCard)
+Create("TextLabel", { Size = UDim2.new(1, -70, 1, 0), BackgroundTransparency = 1, Text = "CAMERA AIM", TextColor3 = C.White, Font = Enum.Font.GothamBold, TextSize = 11, TextXAlignment = Enum.TextXAlignment.Left }, CameraModeRow)
+CameraModeBtn = Create("TextButton", { Size = UDim2.fromOffset(42, 22), Position = UDim2.new(1, -42, 0.5, -11), BackgroundColor3 = C.Background, Text = "", BorderSizePixel = 0, AutoButtonColor = false }, CameraModeRow)
+Round(CameraModeBtn, 12)
+Outline(CameraModeBtn, C.Cyan, 1, 0.45)
+CameraModeKnob = Create("Frame", { Size = UDim2.fromOffset(16, 16), Position = UDim2.fromOffset(3, 3), BackgroundColor3 = C.White, BorderSizePixel = 0 }, CameraModeBtn)
+Round(CameraModeKnob, 20)
+
+CameraModeBtn.MouseButton1Click:Connect(function()
+    if AimModeSilent then return end
+    AimModeCamera = not AimModeCamera
+    Animate(CameraModeBtn, { BackgroundColor3 = AimModeCamera and C.Blue or C.Background })
+    Animate(CameraModeKnob, { Position = AimModeCamera and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3) })
+end)
+
+CharModeRow = Create("Frame", { Size = UDim2.new(1, -20, 0, 28), Position = UDim2.fromOffset(12, 64), BackgroundTransparency = 1 }, ModesCard)
+Create("TextLabel", { Size = UDim2.new(1, -70, 1, 0), BackgroundTransparency = 1, Text = "CHARACTER AIM", TextColor3 = C.White, Font = Enum.Font.GothamBold, TextSize = 11, TextXAlignment = Enum.TextXAlignment.Left }, CharModeRow)
+CharModeBtn = Create("TextButton", { Size = UDim2.fromOffset(42, 22), Position = UDim2.new(1, -42, 0.5, -11), BackgroundColor3 = C.Background, Text = "", BorderSizePixel = 0, AutoButtonColor = false }, CharModeRow)
+Round(CharModeBtn, 12)
+Outline(CharModeBtn, C.Cyan, 1, 0.45)
+CharModeKnob = Create("Frame", { Size = UDim2.fromOffset(16, 16), Position = UDim2.fromOffset(3, 3), BackgroundColor3 = C.White, BorderSizePixel = 0 }, CharModeBtn)
+Round(CharModeKnob, 20)
+
+CharModeBtn.MouseButton1Click:Connect(function()
+    if AimModeSilent then return end
+    AimModeCharacter = not AimModeCharacter
+    Animate(CharModeBtn, { BackgroundColor3 = AimModeCharacter and C.Blue or C.Background })
+    Animate(CharModeKnob, { Position = AimModeCharacter and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3) })
+end)
+
+SilentModeRow = Create("Frame", { Size = UDim2.new(1, -20, 0, 28), Position = UDim2.fromOffset(12, 96), BackgroundTransparency = 1 }, ModesCard)
+Create("TextLabel", { Size = UDim2.new(1, -70, 1, 0), BackgroundTransparency = 1, Text = "SILENT AIM  (circle trigger)", TextColor3 = C.White, Font = Enum.Font.GothamBold, TextSize = 11, TextXAlignment = Enum.TextXAlignment.Left }, SilentModeRow)
+SilentModeBtn = Create("TextButton", { Size = UDim2.fromOffset(42, 22), Position = UDim2.new(1, -42, 0.5, -11), BackgroundColor3 = C.Background, Text = "", BorderSizePixel = 0, AutoButtonColor = false }, SilentModeRow)
+Round(SilentModeBtn, 12)
+Outline(SilentModeBtn, C.Cyan, 1, 0.45)
+SilentModeKnob = Create("Frame", { Size = UDim2.fromOffset(16, 16), Position = UDim2.fromOffset(3, 3), BackgroundColor3 = C.White, BorderSizePixel = 0 }, SilentModeBtn)
+Round(SilentModeKnob, 20)
+
+SilentModeBtn.MouseButton1Click:Connect(function()
+    AimModeSilent = not AimModeSilent
+    Animate(SilentModeBtn, { BackgroundColor3 = AimModeSilent and C.Blue or C.Background })
+    Animate(SilentModeKnob, { Position = AimModeSilent and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3) })
+    
+    if AimModeSilent then
+        AimModeCamera = false
+        AimModeCharacter = false
+        Animate(CameraModeBtn, { BackgroundColor3 = C.Background })
+        Animate(CameraModeKnob, { Position = UDim2.fromOffset(3, 3) })
+        Animate(CharModeBtn, { BackgroundColor3 = C.Background })
+        Animate(CharModeKnob, { Position = UDim2.fromOffset(3, 3) })
+    end
+end)
+
+-- FOV Card
+FOVCard = Create("Frame", {
+    Size = UDim2.new(1, -12, 0, 88),
+    Position = UDim2.new(0, 6, 0, 414),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, AimRoot)
+
+Round(FOVCard, 12)
+Outline(FOVCard, C.Cyan, 1, 0.5)
+
+Create("TextLabel", { Size = UDim2.new(1, -20, 0, 18), Position = UDim2.fromOffset(12, 6), BackgroundTransparency = 1, Text = "SILENT CIRCLE SIZE", TextColor3 = C.Cyan, Font = Enum.Font.GothamBold, TextSize = 11, TextXAlignment = Enum.TextXAlignment.Left }, FOVCard)
+
+FOVBadge = Create("Frame", { Size = UDim2.fromOffset(56, 20), Position = UDim2.new(1, -68, 0, 5), BackgroundColor3 = C.Blue2, BorderSizePixel = 0 }, FOVCard)
+Round(FOVBadge, 10)
+Outline(FOVBadge, C.Cyan, 1, 0.5)
+
+FOVValueLabel = Create("TextLabel", { Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Text = "150", TextColor3 = C.White, Font = Enum.Font.GothamBold, TextSize = 10, TextXAlignment = Enum.TextXAlignment.Center }, FOVBadge)
+
+FOVTrack = Create("Frame", { Size = UDim2.new(1, -24, 0, 10), Position = UDim2.new(0, 12, 0, 52), BackgroundColor3 = C.Background, BackgroundTransparency = 0.15, BorderSizePixel = 0 }, FOVCard)
+Round(FOVTrack, 5)
+Outline(FOVTrack, C.Cyan, 1, 0.55)
+
+FOVFill = Create("Frame", { Size = UDim2.new(0, 0, 1, 0), BackgroundColor3 = C.Cyan, BackgroundTransparency = 0.15, BorderSizePixel = 0 }, FOVTrack)
+Round(FOVFill, 5)
+MakeGradient(FOVFill, C.Cyan, C.Violet, 0)
+
+FOVKnobGlow = Create("Frame", { Size = UDim2.fromOffset(26, 26), Position = UDim2.new(0, -13, 0.5, -13), BackgroundColor3 = C.Cyan, BackgroundTransparency = 0.75, BorderSizePixel = 0, ZIndex = 4 }, FOVTrack)
+Round(FOVKnobGlow, 13)
+
+FOVKnob = Create("Frame", { Size = UDim2.fromOffset(18, 18), Position = UDim2.new(0, -9, 0.5, -9), BackgroundColor3 = C.Blue, BorderSizePixel = 0, ZIndex = 5 }, FOVTrack)
+Round(FOVKnob, 9)
+Outline(FOVKnob, C.Cyan, 1.5, 0)
+
+FOVKnobCore = Create("Frame", { Size = UDim2.fromOffset(4, 4), Position = UDim2.new(0.5, -2, 0.5, -2), BackgroundColor3 = C.White, BorderSizePixel = 0, ZIndex = 6 }, FOVKnob)
+Round(FOVKnobCore, 2)
+
+FOV_MIN = 50
+FOV_MAX = 500
+
+function UpdateFOV(value)
+    AimFOVSize = value
+    FOVValueLabel.Text = tostring(value)
+end
+
+function FOVFromPosition(xPosition)
+    local trackWidth = FOVTrack.AbsoluteSize.X
+    if trackWidth <= 0 then return end
+    local relative = math.clamp(xPosition / trackWidth, 0, 1)
+    UpdateFOV(math.floor(FOV_MIN + (FOV_MAX - FOV_MIN) * relative + 0.5))
+    local knobPos = relative * trackWidth
+    FOVKnob.Position = UDim2.new(0, knobPos - 9, 0.5, -9)
+    FOVKnobGlow.Position = UDim2.new(0, knobPos - 13, 0.5, -13)
+    FOVFill.Size = UDim2.new(relative, 0, 1, 0)
+end
+
+FOVDragging = false
+FOVTrack.InputBegan:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then FOVDragging = true; FOVFromPosition(input.Position.X - FOVTrack.AbsolutePosition.X) end end)
+UIS.InputEnded:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then FOVDragging = false end end)
+UIS.InputChanged:Connect(function(input) if FOVDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then FOVFromPosition(input.Position.X - FOVTrack.AbsolutePosition.X) end end)
+task.defer(function() task.wait(0.2); FOVFromPosition(FOVTrack.AbsoluteSize.X * (100/450)) end)
+
+-- TARGET SELECTOR (PREMIUM)
+MakePremiumSelector(AimRoot, 514, "SELECT TARGET (Or leave blank for AUTO)", function(selectedPlayer)
+    AimTargetMode = "MANUAL"
+    AimManualTarget = selectedPlayer
+end)
+--========================================================
+-- PART 7: ADVANCED AIMBOT BACKEND
+--========================================================
+
+StartBtn = Create("TextButton", {
+    Size = UDim2.new(1, -12, 0, 48),
+    Position = UDim2.new(0, 6, 0, 740), -- MOVED UP FROM 764
+    BackgroundColor3 = C.Blue,
+    Text = "START AIMBOT",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 13,
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, AimRoot)
+
+Round(StartBtn, 10)
+Outline(StartBtn, C.Cyan, 1.5, 0.3)
+MakeGradient(StartBtn, C.Blue2, C.Violet, 0)
+
+StartBtn.MouseButton1Click:Connect(function()
+    AimActive = not AimActive
+    if AimActive then
+        StartBtn.Text = "STOP AIMBOT"
+        Animate(StartBtn, { BackgroundColor3 = C.Red })
+    else
+        StartBtn.Text = "START AIMBOT"
+        Animate(StartBtn, { BackgroundColor3 = C.Blue })
+        AimLockedPlayer = nil
+    end
+end)
+
+AimStatus = Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 24),
+    Position = UDim2.new(0, 10, 0, 796), -- MOVED UP FROM 820
+    BackgroundTransparency = 1,
+    Text = "● AIMBOT OFF",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, AimRoot)
+
+SilentCircle = Create("Frame", {
+    Name = "SilentCircle",
+    Size = UDim2.fromOffset(300, 300),
+    Position = UDim2.new(0.5, -150, 0.5, -150),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    Visible = false,
+    ZIndex = 500,
+    Parent = GUI
+})
+
+SilentCircleGlow = Create("Frame", { Size = UDim2.new(1, 20, 1, 20), Position = UDim2.new(0, -10, 0, -10), BackgroundColor3 = C.Cyan, BackgroundTransparency = 0.88, BorderSizePixel = 0, ZIndex = 499 }, SilentCircle)
+Round(SilentCircleGlow, 500)
+
+SilentCircleRing = Create("Frame", { Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, BorderSizePixel = 0, ZIndex = 501 }, SilentCircle)
+SilentCircleRingStroke = Outline(SilentCircleRing, C.Cyan, 2, 0.2)
+Round(SilentCircleRing, 500)
+
+RunService = game:GetService("RunService")
+
+function GetNearestPlayerToPoint(origin)
+    local best, bestDist = nil, math.huge
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= Player and p.Character then
+            local root = p.Character:FindFirstChild("HumanoidRootPart")
+            local hum = p.Character:FindFirstChildOfClass("Humanoid")
+            if root and hum and hum.Health > 0 then
+                local dist = (root.Position - origin).Magnitude
+                if dist < bestDist then best, bestDist = p, dist end
+            end
+        end
+    end
+    return best
+end
+
+function GetNearestToCrosshair(camera)
+    local best, bestScore = nil, math.huge
+    local camPos = camera.CFrame.Position
+    local camLook = camera.CFrame.LookVector
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= Player and p.Character then
+            local root = p.Character:FindFirstChild("HumanoidRootPart")
+            local hum = p.Character:FindFirstChildOfClass("Humanoid")
+            if root and hum and hum.Health > 0 then
+                local dir = (root.Position - camPos).Unit
+                local dot = camLook:Dot(dir)
+                if dot > 0 then
+                    local score = 1 - dot
+                    if score < bestScore then best, bestScore = p, score end
+                end
+            end
+        end
+    end
+    return best
+end
+
+function PickAimTarget()
+    if AimTargetMode == "MANUAL" and AimManualTarget then
+        if AimManualTarget.Character then
+            local hum = AimManualTarget.Character:FindFirstChildOfClass("Humanoid")
+            if hum and hum.Health > 0 then return AimManualTarget end
+        end
+        return nil
+    end
+    if AimPriority == "Nearest Player" then
+        return GetNearestPlayerToPoint(Camera.CFrame.Position)
+    else
+        return GetNearestToCrosshair(Camera)
+    end
+end
+
+function GetAimPart(character)
+    if AimTargetPart == "Head" then
+        return character:FindFirstChild("Head") or character:FindFirstChild("HumanoidRootPart")
+    else
+        return character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Head")
+    end
+end
+
+RunService.RenderStepped:Connect(function(dt)
+    SilentCircle.Visible = AimActive and AimModeSilent
+    if SilentCircle.Visible then
+        SilentCircle.Size = UDim2.fromOffset(AimFOVSize * 2, AimFOVSize * 2)
+        SilentCircle.Position = UDim2.new(0.5, -AimFOVSize, 0.5, -AimFOVSize)
+    end
+
+    if not AimActive then
+        AimStatus.Text = "● AIMBOT OFF"
+        AimStatus.TextColor3 = C.Gray
+        AimLockedPlayer = nil
+        return
+    end
+
+    local target = PickAimTarget()
+    if not target or not target.Character then
+        AimStatus.Text = "● SEARCHING..."
+        AimStatus.TextColor3 = C.Cyan
+        AimLockedPlayer = nil
+        return
+    end
+
+    local root = target.Character:FindFirstChild("HumanoidRootPart")
+    local aimPart = GetAimPart(target.Character)
+    if not root or not aimPart then
+        AimStatus.Text = "● SEARCHING..."
+        AimStatus.TextColor3 = C.Cyan
+        AimLockedPlayer = nil
+        return
+    end
+
+    if AimModeSilent then
+        local screenPos, onScreen = Camera:WorldToViewportPoint(root.Position)
+        if not onScreen then
+            AimStatus.Text = "● SEARCHING (OFF SCREEN)"
+            AimStatus.TextColor3 = C.Cyan
+            AimLockedPlayer = nil
+            return
+        end
+        local vp = Camera.ViewportSize
+        local centerX, centerY = vp.X / 2, vp.Y / 2
+        local dx = screenPos.X - centerX
+        local dy = screenPos.Y - centerY
+        if math.sqrt(dx * dx + dy * dy) > AimFOVSize then
+            AimStatus.Text = "● SEARCHING (OUT OF CIRCLE)"
+            AimStatus.TextColor3 = C.Cyan
+            AimLockedPlayer = nil
+            return
+        end
+    end
+
+    AimLockedPlayer = target
+    AimStatus.Text = "● LOCKED: " .. target.Name
+    AimStatus.TextColor3 = C.Green
+
+    local doCamera = AimModeSilent or AimModeCamera
+    local doCharacter = AimModeSilent or AimModeCharacter
+
+    if doCamera then
+        local targetCF = CFrame.new(Camera.CFrame.Position, aimPart.Position)
+        Camera.CFrame = Camera.CFrame:Lerp(targetCF, 1)
+    end
+
+    if doCharacter then
+        local myChar = Player.Character
+        local myRoot = myChar and myChar:FindFirstChild("HumanoidRootPart")
+        if myRoot then
+            local lookCF = CFrame.lookAt(myRoot.Position, aimPart.Position)
+            myRoot.CFrame = CFrame.new(myRoot.Position) * (lookCF - lookCF.Position)
+        end
+    end
+end)
+
+print("PERFECT ADVANCED AIMBOT READY")
+--========================================================
+-- PART 8: PLAYER ESP
+--========================================================
+
+ESPActive = false
+ESPShowName = true
+ESPShowHP = true
+ESPShowDistance = true
+
+ESPRoot = Create("Frame", {
+    Name = "ESPRoot",
+    Size = UDim2.new(1, 0, 0, 290),
+    Position = UDim2.new(0, 0, 0, 870), -- MOVED DOWN FROM 850
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    LayoutOrder = 2
+}, HomePage)
+
+ESPHeader = Create("Frame", {
+    Name = "ESPHeader",
+    Size = UDim2.new(1, -12, 0, 62),
+    Position = UDim2.new(0, 6, 0, 4),
+    BackgroundColor3 = C.Header,
+    BorderSizePixel = 0
+}, ESPRoot)
+
+Round(ESPHeader, 12)
+Outline(ESPHeader, C.Cyan, 1, 0.2)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 30),
+    Position = UDim2.new(0, 12, 0, 5),
+    BackgroundTransparency = 1,
+    Text = "PLAYER ESP",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 20,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, ESPHeader)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.new(0, 12, 0, 35),
+    BackgroundTransparency = 1,
+    Text = "VISUAL OVERLAY FOR OTHER PLAYERS",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, ESPHeader)
+
+ESPToggleCard = Create("Frame", {
+    Size = UDim2.new(1, -12, 0, 60),
+    Position = UDim2.new(0, 6, 0, 76),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, ESPRoot)
+
+Round(ESPToggleCard, 12)
+Outline(ESPToggleCard, C.Blue, 1, 0.4)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -80, 1, 0),
+    Position = UDim2.fromOffset(12, 0),
+    BackgroundTransparency = 1,
+    Text = "ENABLE ESP",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, ESPToggleCard)
+
+ESPToggleBtn = Create("TextButton", {
+    Size = UDim2.fromOffset(42, 22),
+    Position = UDim2.new(1, -53, 0.5, -11),
+    BackgroundColor3 = C.Background,
+    Text = "",
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, ESPToggleCard)
+
+Round(ESPToggleBtn, 12)
+Outline(ESPToggleBtn, C.Cyan, 1, 0.45)
+
+ESPToggleKnob = Create("Frame", {
+    Size = UDim2.fromOffset(16, 16),
+    Position = UDim2.fromOffset(3, 3),
+    BackgroundColor3 = C.White,
+    BorderSizePixel = 0
+}, ESPToggleBtn)
+Round(ESPToggleKnob, 20)
+
+ESPInfoCard = Create("Frame", {
+    Size = UDim2.new(1, -12, 0, 130),
+    Position = UDim2.new(0, 6, 0, 146),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, ESPRoot)
+
+Round(ESPInfoCard, 12)
+Outline(ESPInfoCard, C.Blue, 1, 0.4)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 20),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "SHOW ON SCREEN",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, ESPInfoCard)
+
+function MakeESPToggleRow(parent, yPos, label, value, callback)
+    local row = Create("Frame", {
+        Size = UDim2.new(1, -20, 0, 28),
+        Position = UDim2.fromOffset(12, yPos),
+        BackgroundTransparency = 1
+    }, parent)
+
+    Create("TextLabel", {
+        Size = UDim2.new(1, -70, 1, 0),
+        BackgroundTransparency = 1,
+        Text = label,
+        TextColor3 = C.White,
+        Font = Enum.Font.GothamBold,
+        TextSize = 11,
+        TextXAlignment = Enum.TextXAlignment.Left
+    }, row)
+
+    local btn = Create("TextButton", {
+        Size = UDim2.fromOffset(42, 22),
+        Position = UDim2.new(1, -42, 0.5, -11),
+        BackgroundColor3 = value and C.Blue or C.Background,
+        Text = "",
+        BorderSizePixel = 0,
+        AutoButtonColor = false
+    }, row)
+
+    Round(btn, 12)
+    Outline(btn, C.Cyan, 1, 0.45)
+
+    local knob = Create("Frame", {
+        Size = UDim2.fromOffset(16, 16),
+        Position = value and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3),
+        BackgroundColor3 = C.White,
+        BorderSizePixel = 0
+    }, btn)
+    Round(knob, 20)
+
+    local enabled = value
+
+    btn.MouseButton1Click:Connect(function()
+        enabled = not enabled
+        Animate(btn, { BackgroundColor3 = enabled and C.Blue or C.Background })
+        Animate(knob, { Position = enabled and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3) })
+        if callback then callback(enabled) end
+    end)
+
+    return btn
+end
+
+MakeESPToggleRow(ESPInfoCard, 32, "NAME", true, function(v) ESPShowName = v end)
+MakeESPToggleRow(ESPInfoCard, 64, "HP", true, function(v) ESPShowHP = v end)
+MakeESPToggleRow(ESPInfoCard, 96, "DISTANCE (studs)", true, function(v) ESPShowDistance = v end)
+
+ESPStatus = Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 24),
+    Position = UDim2.new(0, 10, 0, 300),
+    BackgroundTransparency = 1,
+    Text = "● ESP OFF",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, ESPRoot)
+
+ESPData = {}
+
+function CreateESPFor(player)
+    if player == Player then return end
+    if ESPData[player] then return end
+
+    local char = player.Character
+    if not char then return end
+
+    local root = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    if not root or not hum then return end
+
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "PERFECT_ESP"
+    highlight.Adornee = char
+    highlight.FillColor = Color3.fromRGB(255, 0, 0)
+    highlight.OutlineColor = Color3.fromRGB(255, 80, 80)
+    highlight.FillTransparency = 0.55
+    highlight.OutlineTransparency = 0
+    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    highlight.Parent = char
+
+    local billboard = Instance.new("BillboardGui")
+    billboard.Name = "PERFECT_ESP_BILLBOARD"
+    billboard.Size = UDim2.new(0, 200, 0, 60)
+    billboard.StudsOffset = Vector3.new(0, 3, 0)
+    billboard.AlwaysOnTop = true
+    billboard.MaxDistance = 500
+    billboard.Adornee = char.Head or root
+    billboard.Parent = char
+
+    local infoLabel = Instance.new("TextLabel")
+    infoLabel.Name = "ESPInfo"
+    infoLabel.Size = UDim2.new(1, 0, 1, 0)
+    infoLabel.BackgroundTransparency = 1
+    infoLabel.TextColor3 = Color3.fromRGB(255, 80, 80)
+    infoLabel.TextStrokeTransparency = 0
+    infoLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+    infoLabel.Font = Enum.Font.GothamBold
+    infoLabel.TextSize = 12
+    infoLabel.TextYAlignment = Enum.TextYAlignment.Bottom
+    infoLabel.Text = ""
+    infoLabel.Parent = billboard
+
+    ESPData[player] = {
+        Highlight = highlight,
+        Billboard = billboard,
+        InfoLabel = infoLabel
+    }
+end
+
+function RemoveESPFor(player)
+    local data = ESPData[player]
+    if not data then return end
+    if data.Highlight then data.Highlight:Destroy() end
+    if data.Billboard then data.Billboard:Destroy() end
+    ESPData[player] = nil
+end
+
+function RemoveAllESP()
+    for player, _ in pairs(ESPData) do
+        RemoveESPFor(player)
+    end
+end
+
+function RefreshAllESP()
+    if not ESPActive then return end
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= Player then
+            CreateESPFor(p)
+        end
+    end
+end
+
+ESPToggleBtn.MouseButton1Click:Connect(function()
+    ESPActive = not ESPActive
+    Animate(ESPToggleBtn, { BackgroundColor3 = ESPActive and C.Blue or C.Background })
+    Animate(ESPToggleKnob, { Position = ESPActive and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3) })
+    if ESPActive then
+        RefreshAllESP()
+        ESPStatus.Text = "● ESP ON"
+        ESPStatus.TextColor3 = C.Green
+    else
+        RemoveAllESP()
+        ESPStatus.Text = "● ESP OFF"
+        ESPStatus.TextColor3 = C.Gray
+    end
+end)
+
+Players.PlayerAdded:Connect(function(p)
+    if ESPActive then
+        task.wait(1)
+        CreateESPFor(p)
+    end
+    p.CharacterAdded:Connect(function()
+        if ESPActive then
+            RemoveESPFor(p)
+            task.wait(0.5)
+            CreateESPFor(p)
+        end
+    end)
+end)
+
+Players.PlayerRemoving:Connect(function(p)
+    RemoveESPFor(p)
+end)
+
+for _, p in ipairs(Players:GetPlayers()) do
+    if p ~= Player then
+        p.CharacterAdded:Connect(function()
+            if ESPActive then
+                RemoveESPFor(p)
+                task.wait(0.5)
+                CreateESPFor(p)
+            end
+        end)
+    end
+end
+
+RunService.RenderStepped:Connect(function()
+    if not ESPActive then return end
+    for player, data in pairs(ESPData) do
+        local char = player.Character
+        local hum = char and char:FindFirstChildOfClass("Humanoid")
+        local root = char and char:FindFirstChild("HumanoidRootPart")
+        if not char or not hum or not root or hum.Health <= 0 then
+            if data.Highlight then data.Highlight.Enabled = false end
+            if data.InfoLabel then data.InfoLabel.Text = "" end
+        else
+            if data.Highlight then data.Highlight.Enabled = true end
+            local hpStr = ESPShowHP and string.format("HP: %d/%d", math.floor(hum.Health), math.floor(hum.MaxHealth)) or ""
+            local distStr = ""
+            if ESPShowDistance then
+                local myChar = Player.Character
+                local myRoot = myChar and myChar:FindFirstChild("HumanoidRootPart")
+                if myRoot then
+                    distStr = string.format("%d studs", math.floor((root.Position - myRoot.Position).Magnitude))
+                end
+            end
+            local nameStr = ESPShowName and player.Name or ""
+            local lines = {}
+            if nameStr ~= "" then table.insert(lines, nameStr) end
+            if hpStr ~= "" then table.insert(lines, hpStr) end
+            if distStr ~= "" then table.insert(lines, distStr) end
+            if data.InfoLabel then data.InfoLabel.Text = table.concat(lines, "\n") end
+        end
+    end
+end)
+
+print("PERFECT ESP READY")
+--========================================================
+-- PART 9: PLAYER ATTACH
+--========================================================
+
+AttachActive = false
+AttachTarget = nil
+AttachDistance = 3
+AttachHeight = 2
+
+AttachRoot = Create("Frame", {
+    Name = "AttachRoot",
+    Size = UDim2.new(1, 0, 0, 580),
+    Position = UDim2.new(0, 0, 0, 1150), -- Fixed overlap
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    LayoutOrder = 3
+}, HomePage)
+
+AttachHeader = Create("Frame", {
+    Name = "AttachHeader",
+    Size = UDim2.new(1, -12, 0, 62),
+    Position = UDim2.new(0, 6, 0, 4),
+    BackgroundColor3 = C.Header,
+    BorderSizePixel = 0
+}, AttachRoot)
+
+Round(AttachHeader, 12)
+Outline(AttachHeader, C.Cyan, 1, 0.2)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 30),
+    Position = UDim2.new(0, 12, 0, 5),
+    BackgroundTransparency = 1,
+    Text = "PLAYER ATTACH",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 20,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, AttachHeader)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.new(0, 12, 0, 35),
+    BackgroundTransparency = 1,
+    Text = "LOCK TO TARGET'S BACK",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, AttachHeader)
+
+MakePremiumSelector(AttachRoot, 76, "SELECT TARGET", function(selectedPlayer)
+    AttachTarget = selectedPlayer
+    if AttachActive and RebuildAttachConstraints then RebuildAttachConstraints() end
+end)
+
+AttachToggleCard = Create("Frame", {
+    Size = UDim2.new(1, -12, 0, 60),
+    Position = UDim2.new(0, 6, 0, 326),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, AttachRoot)
+
+Round(AttachToggleCard, 12)
+Outline(AttachToggleCard, C.Blue, 1, 0.4)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -80, 1, 0),
+    Position = UDim2.fromOffset(12, 0),
+    BackgroundTransparency = 1,
+    Text = "ENABLE ATTACH",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, AttachToggleCard)
+
+AttachToggleBtn = Create("TextButton", {
+    Size = UDim2.fromOffset(42, 22),
+    Position = UDim2.new(1, -53, 0.5, -11),
+    BackgroundColor3 = C.Background,
+    Text = "",
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, AttachToggleCard)
+
+Round(AttachToggleBtn, 12)
+Outline(AttachToggleBtn, C.Cyan, 1, 0.45)
+
+AttachToggleKnob = Create("Frame", {
+    Size = UDim2.fromOffset(16, 16),
+    Position = UDim2.fromOffset(3, 3),
+    BackgroundColor3 = C.White,
+    BorderSizePixel = 0
+}, AttachToggleBtn)
+Round(AttachToggleKnob, 20)
+
+AttachDistanceCard = Create("Frame", {
+    Size = UDim2.new(1, -12, 0, 88),
+    Position = UDim2.new(0, 6, 0, 396),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, AttachRoot)
+
+Round(AttachDistanceCard, 12)
+Outline(AttachDistanceCard, C.Cyan, 1, 0.5)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "DISTANCE BEHIND",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, AttachDistanceCard)
+
+AttachDistBadge = Create("Frame", {
+    Size = UDim2.fromOffset(56, 20),
+    Position = UDim2.new(1, -68, 0, 5),
+    BackgroundColor3 = C.Blue2,
+    BorderSizePixel = 0
+}, AttachDistanceCard)
+
+Round(AttachDistBadge, 10)
+Outline(AttachDistBadge, C.Cyan, 1, 0.5)
+
+AttachDistValue = Create("TextLabel", {
+    Size = UDim2.new(1, 0, 1, 0),
+    BackgroundTransparency = 1,
+    Text = "3",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Center
+}, AttachDistBadge)
+
+AttachDistTrack = Create("Frame", {
+    Size = UDim2.new(1, -24, 0, 10),
+    Position = UDim2.new(0, 12, 0, 52),
+    BackgroundColor3 = C.Background,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, AttachDistanceCard)
+
+Round(AttachDistTrack, 5)
+Outline(AttachDistTrack, C.Cyan, 1, 0.55)
+
+AttachDistFill = Create("Frame", {
+    Size = UDim2.new(0, 0, 1, 0),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, AttachDistTrack)
+Round(AttachDistFill, 5)
+MakeGradient(AttachDistFill, C.Cyan, C.Violet, 0)
+
+AttachDistKnobGlow = Create("Frame", {
+    Size = UDim2.fromOffset(26, 26),
+    Position = UDim2.new(0, -13, 0.5, -13),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.75,
+    BorderSizePixel = 0,
+    ZIndex = 4
+}, AttachDistTrack)
+Round(AttachDistKnobGlow, 13)
+
+AttachDistKnob = Create("Frame", {
+    Size = UDim2.fromOffset(18, 18),
+    Position = UDim2.new(0, -9, 0.5, -9),
+    BackgroundColor3 = C.Blue,
+    BorderSizePixel = 0,
+    ZIndex = 5
+}, AttachDistTrack)
+Round(AttachDistKnob, 9)
+Outline(AttachDistKnob, C.Cyan, 1.5, 0)
+
+ATTACH_DIST_MIN = 1
+ATTACH_DIST_MAX = 10
+
+function AttachDistFromPos(x)
+    local tw = AttachDistTrack.AbsoluteSize.X
+    if tw <= 0 then return end
+    local rel = math.clamp(x / tw, 0, 1)
+    local val = math.floor(ATTACH_DIST_MIN + (ATTACH_DIST_MAX - ATTACH_DIST_MIN) * rel + 0.5)
+    AttachDistance = val
+    AttachDistValue.Text = tostring(val)
+    local kp = rel * tw
+    AttachDistKnob.Position = UDim2.new(0, kp - 9, 0.5, -9)
+    AttachDistKnobGlow.Position = UDim2.new(0, kp - 13, 0.5, -13)
+    AttachDistFill.Size = UDim2.new(rel, 0, 1, 0)
+end
+
+AttachDistDragging = false
+AttachDistTrack.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        AttachDistDragging = true
+        AttachDistFromPos(input.Position.X - AttachDistTrack.AbsolutePosition.X)
+        Animate(AttachDistKnobGlow, { BackgroundTransparency = 0.6 }, 0.15)
+    end
+end)
+UIS.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        AttachDistDragging = false
+        Animate(AttachDistKnobGlow, { BackgroundTransparency = 0.75 }, 0.2)
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if AttachDistDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        AttachDistFromPos(input.Position.X - AttachDistTrack.AbsolutePosition.X)
+    end
+end)
+task.defer(function()
+    task.wait(0.2)
+    AttachDistFromPos(AttachDistTrack.AbsoluteSize.X * 0.22)
+end)
+
+AttachHeightCard = Create("Frame", {
+    Size = UDim2.new(1, -12, 0, 88),
+    Position = UDim2.new(0, 6, 0, 494),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, AttachRoot)
+
+Round(AttachHeightCard, 12)
+Outline(AttachHeightCard, C.Cyan, 1, 0.5)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "HEIGHT OFFSET",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, AttachHeightCard)
+
+AttachHeightBadge = Create("Frame", {
+    Size = UDim2.fromOffset(56, 20),
+    Position = UDim2.new(1, -68, 0, 5),
+    BackgroundColor3 = C.Blue2,
+    BorderSizePixel = 0
+}, AttachHeightCard)
+
+Round(AttachHeightBadge, 10)
+Outline(AttachHeightBadge, C.Cyan, 1, 0.5)
+
+AttachHeightValue = Create("TextLabel", {
+    Size = UDim2.new(1, 0, 1, 0),
+    BackgroundTransparency = 1,
+    Text = "2",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Center
+}, AttachHeightBadge)
+
+AttachHeightTrack = Create("Frame", {
+    Size = UDim2.new(1, -24, 0, 10),
+    Position = UDim2.new(0, 12, 0, 52),
+    BackgroundColor3 = C.Background,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, AttachHeightCard)
+
+Round(AttachHeightTrack, 5)
+Outline(AttachHeightTrack, C.Cyan, 1, 0.55)
+
+AttachHeightFill = Create("Frame", {
+    Size = UDim2.new(0, 0, 1, 0),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, AttachHeightTrack)
+Round(AttachHeightFill, 5)
+MakeGradient(AttachHeightFill, C.Cyan, C.Violet, 0)
+
+AttachHeightKnobGlow = Create("Frame", {
+    Size = UDim2.fromOffset(26, 26),
+    Position = UDim2.new(0, -13, 0.5, -13),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.75,
+    BorderSizePixel = 0,
+    ZIndex = 4
+}, AttachHeightTrack)
+Round(AttachHeightKnobGlow, 13)
+
+AttachHeightKnob = Create("Frame", {
+    Size = UDim2.fromOffset(18, 18),
+    Position = UDim2.new(0, -9, 0.5, -9),
+    BackgroundColor3 = C.Blue,
+    BorderSizePixel = 0,
+    ZIndex = 5
+}, AttachHeightTrack)
+Round(AttachHeightKnob, 9)
+Outline(AttachHeightKnob, C.Cyan, 1.5, 0)
+
+ATTACH_HGT_MIN = 0
+ATTACH_HGT_MAX = 8
+
+function AttachHgtFromPos(x)
+    local tw = AttachHeightTrack.AbsoluteSize.X
+    if tw <= 0 then return end
+    local rel = math.clamp(x / tw, 0, 1)
+    local val = math.floor(ATTACH_HGT_MIN + (ATTACH_HGT_MAX - ATTACH_HGT_MIN) * rel + 0.5)
+    AttachHeight = val
+    AttachHeightValue.Text = tostring(val)
+    local kp = rel * tw
+    AttachHeightKnob.Position = UDim2.new(0, kp - 9, 0.5, -9)
+    AttachHeightKnobGlow.Position = UDim2.new(0, kp - 13, 0.5, -13)
+    AttachHeightFill.Size = UDim2.new(rel, 0, 1, 0)
+end
+
+AttachHgtDragging = false
+AttachHeightTrack.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        AttachHgtDragging = true
+        AttachHgtFromPos(input.Position.X - AttachHeightTrack.AbsolutePosition.X)
+        Animate(AttachHeightKnobGlow, { BackgroundTransparency = 0.6 }, 0.15)
+    end
+end)
+UIS.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        AttachHgtDragging = false
+        Animate(AttachHeightKnobGlow, { BackgroundTransparency = 0.75 }, 0.2)
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if AttachHgtDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        AttachHgtFromPos(input.Position.X - AttachHeightTrack.AbsolutePosition.X)
+    end
+end)
+task.defer(function()
+    task.wait(0.2)
+    AttachHgtFromPos(AttachHeightTrack.AbsoluteSize.X * 0.25)
+end)
+
+--========================================================
+-- PLAYER ATTACH - BACKEND
+--========================================================
+
+AttachAlignPos = nil
+AttachAlignOri = nil
+AttachAttachment = nil
+
+function SetNoclip(state)
+    local char = Player.Character
+    if not char then return end
+    for _, part in ipairs(char:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.CanCollide = not state
+        end
+    end
+end
+
+function DestroyAttachConstraints()
+    if AttachAlignPos then pcall(function() AttachAlignPos:Destroy() end) AttachAlignPos = nil end
+    if AttachAlignOri then pcall(function() AttachAlignOri:Destroy() end) AttachAlignOri = nil end
+    if AttachAttachment then pcall(function() AttachAttachment:Destroy() end) AttachAttachment = nil end
+end
+
+function RebuildAttachConstraints()
+    DestroyAttachConstraints()
+    if not AttachActive then return end
+
+    local myChar = Player.Character
+    local myRoot = myChar and myChar:FindFirstChild("HumanoidRootPart")
+    if not myRoot then return end
+
+    AttachAttachment = Instance.new("Attachment")
+    AttachAttachment.Name = "PERFECT_ATTACH_ATT"
+    AttachAttachment.Parent = myRoot
+
+    AttachAlignPos = Instance.new("AlignPosition")
+    AttachAlignPos.Name = "PERFECT_ATTACH_POS"
+    AttachAlignPos.Attachment0 = AttachAttachment
+    AttachAlignPos.Mode = Enum.PositionAlignmentMode.OneAttachment
+    AttachAlignPos.Responsiveness = 100
+    AttachAlignPos.MaxForce = 100000
+    AttachAlignPos.ApplyAtCenterOfMass = true
+    AttachAlignPos.Position = myRoot.Position
+    AttachAlignPos.Parent = myRoot
+
+    AttachAlignOri = Instance.new("AlignOrientation")
+    AttachAlignOri.Name = "PERFECT_ATTACH_ORI"
+    AttachAlignOri.Attachment0 = AttachAttachment
+    AttachAlignOri.Mode = Enum.OrientationAlignmentMode.OneAttachment
+    AttachAlignOri.Responsiveness = 100
+    AttachAlignOri.MaxTorque = 100000
+    AttachAlignOri.CFrame = myRoot.CFrame
+    AttachAlignOri.Parent = myRoot
+end
+
+RunService.RenderStepped:Connect(function()
+    if not AttachActive then return end
+    if not AttachTarget then
+        AttachStatus.Text = "● NO TARGET SELECTED"
+        AttachStatus.TextColor3 = C.Cyan
+        DestroyAttachConstraints()
+        return
+    end
+
+    local targetChar = AttachTarget.Character
+    local targetRoot = targetChar and targetChar:FindFirstChild("HumanoidRootPart")
+    local targetHum = targetChar and targetChar:FindFirstChildOfClass("Humanoid")
+
+    if not targetChar then
+        AttachStatus.Text = "● TARGET LEFT"
+        AttachStatus.TextColor3 = C.Red
+        DestroyAttachConstraints()
+        return
+    end
+
+    if not targetHum or targetHum.Health <= 0 then
+        AttachStatus.Text = "● TARGET DEAD"
+        AttachStatus.TextColor3 = C.Red
+        DestroyAttachConstraints()
+        return
+    end
+
+    if not targetRoot then
+        AttachStatus.Text = "● TARGET INVALID"
+        AttachStatus.TextColor3 = C.Red
+        return
+    end
+
+    if not AttachAlignPos or not AttachAlignPos.Parent then
+        RebuildAttachConstraints()
+    end
+
+    local targetCFrame = targetRoot.CFrame
+    local behindPos = targetCFrame.Position - (targetCFrame.LookVector * AttachDistance) + Vector3.new(0, AttachHeight, 0)
+    local faceCFrame = CFrame.lookAt(behindPos, targetRoot.Position)
+
+    if AttachAlignPos then AttachAlignPos.Position = behindPos end
+    if AttachAlignOri then AttachAlignOri.CFrame = faceCFrame end
+
+    AttachStatus.Text = "● ATTACHED: " .. AttachTarget.Name
+    AttachStatus.TextColor3 = C.Green
+end)
+
+AttachToggleBtn.MouseButton1Click:Connect(function()
+    AttachActive = not AttachActive
+    Animate(AttachToggleBtn, { BackgroundColor3 = AttachActive and C.Blue or C.Background })
+    Animate(AttachToggleKnob, { Position = AttachActive and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3) })
+
+    if AttachActive then
+        RebuildAttachConstraints()
+        SetNoclip(true)
+        AttachStatus.Text = AttachTarget and ("● ATTACHING: " .. AttachTarget.Name) or "● NO TARGET SELECTED"
+        AttachStatus.TextColor3 = AttachTarget and C.Green or C.Cyan
+    else
+        DestroyAttachConstraints()
+        SetNoclip(false)
+        AttachStatus.Text = "● ATTACH OFF"
+        AttachStatus.TextColor3 = C.Gray
+    end
+end)
+
+Player.CharacterAdded:Connect(function()
+    task.wait(0.5)
+    if AttachActive then
+        RebuildAttachConstraints()
+        SetNoclip(true)
+    end
+end)
+
+AttachStatus = Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 24),
+    Position = UDim2.new(0, 10, 0, 592),
+    BackgroundTransparency = 1,
+    Text = "● ATTACH OFF",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, AttachRoot)
+
+print("PERFECT PLAYER ATTACH READY")
+--========================================================
+-- PART 10: FLING SYSTEM
+--========================================================
+
+FlingRoot = Create("Frame", {
+    Name = "FlingRoot",
+    Size = UDim2.new(1, 0, 0, 520),
+    Position = UDim2.new(0, 0, 0, 1780), -- Placed below Attach
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    LayoutOrder = 4
+}, HomePage)
+
+FlingHeader = Create("Frame", {
+    Name = "FlingHeader",
+    Size = UDim2.new(1, -12, 0, 62),
+    Position = UDim2.new(0, 6, 0, 4),
+    BackgroundColor3 = C.Header,
+    BorderSizePixel = 0
+}, FlingRoot)
+
+Round(FlingHeader, 12)
+Outline(FlingHeader, C.Cyan, 1, 0.2)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 30),
+    Position = UDim2.new(0, 12, 0, 5),
+    BackgroundTransparency = 1,
+    Text = "FLING SYSTEM",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 20,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, FlingHeader)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.new(0, 12, 0, 35),
+    BackgroundTransparency = 1,
+    Text = "TROLL & LAUNCH PLAYERS",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, FlingHeader)
+
+MakePremiumSelector(FlingRoot, 76, "SELECT TARGET", function(selectedPlayer)
+    FlingSelectedPlayer = selectedPlayer
+end)
+
+FlingPowerCard = Create("Frame", {
+    Size = UDim2.new(1, -12, 0, 88),
+    Position = UDim2.new(0, 6, 0, 326),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, FlingRoot)
+
+Round(FlingPowerCard, 12)
+Outline(FlingPowerCard, C.Cyan, 1, 0.5)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "FLING POWER",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, FlingPowerCard)
+
+FlingPowerBadge = Create("Frame", {
+    Size = UDim2.fromOffset(56, 20),
+    Position = UDim2.new(1, -68, 0, 5),
+    BackgroundColor3 = C.Blue2,
+    BorderSizePixel = 0
+}, FlingPowerCard)
+
+Round(FlingPowerBadge, 10)
+Outline(FlingPowerBadge, C.Cyan, 1, 0.5)
+
+FlingPowerValue = Create("TextLabel", {
+    Size = UDim2.new(1, 0, 1, 0),
+    BackgroundTransparency = 1,
+    Text = "500",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Center
+}, FlingPowerBadge)
+
+FlingPowerTrack = Create("Frame", {
+    Size = UDim2.new(1, -24, 0, 10),
+    Position = UDim2.new(0, 12, 0, 52),
+    BackgroundColor3 = C.Background,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, FlingPowerCard)
+
+Round(FlingPowerTrack, 5)
+Outline(FlingPowerTrack, C.Cyan, 1, 0.55)
+
+FlingPowerFill = Create("Frame", {
+    Size = UDim2.new(0.44, 0, 1, 0),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, FlingPowerTrack)
+Round(FlingPowerFill, 5)
+MakeGradient(FlingPowerFill, C.Cyan, C.Violet, 0)
+
+FlingPowerKnobGlow = Create("Frame", {
+    Size = UDim2.fromOffset(26, 26),
+    Position = UDim2.new(0.44, -13, 0.5, -13),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.75,
+    BorderSizePixel = 0,
+    ZIndex = 4
+}, FlingPowerTrack)
+Round(FlingPowerKnobGlow, 13)
+
+FlingPowerKnob = Create("Frame", {
+    Size = UDim2.fromOffset(18, 18),
+    Position = UDim2.new(0.44, -9, 0.5, -9),
+    BackgroundColor3 = C.Blue,
+    BorderSizePixel = 0,
+    ZIndex = 5
+}, FlingPowerTrack)
+Round(FlingPowerKnob, 9)
+Outline(FlingPowerKnob, C.Cyan, 1.5, 0)
+
+FlingPower = 500
+FLING_MIN = 100
+FLING_MAX = 1000
+
+function UpdateFlingPower(value)
+    FlingPower = value
+    FlingPowerValue.Text = tostring(value)
+end
+
+function FlingPowerFromPos(x)
+    local tw = FlingPowerTrack.AbsoluteSize.X
+    if tw <= 0 then return end
+    local rel = math.clamp(x / tw, 0, 1)
+    local val = math.floor(FLING_MIN + (FLING_MAX - FLING_MIN) * rel + 0.5)
+    UpdateFlingPower(val)
+    local kp = rel * tw
+    FlingPowerKnob.Position = UDim2.new(0, kp - 9, 0.5, -9)
+    FlingPowerKnobGlow.Position = UDim2.new(0, kp - 13, 0.5, -13)
+    FlingPowerFill.Size = UDim2.new(rel, 0, 1, 0)
+end
+
+FlingPowerDragging = false
+FlingPowerTrack.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        FlingPowerDragging = true
+        FlingPowerFromPos(input.Position.X - FlingPowerTrack.AbsolutePosition.X)
+    end
+end)
+UIS.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        FlingPowerDragging = false
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if FlingPowerDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        FlingPowerFromPos(input.Position.X - FlingPowerTrack.AbsolutePosition.X)
+    end
+end)
+task.defer(function()
+    task.wait(0.2)
+    FlingPowerFromPos(FlingPowerTrack.AbsoluteSize.X * 0.44)
+end)
+
+FlingButtonsCard = Create("Frame", {
+    Size = UDim2.new(1, -12, 0, 110),
+    Position = UDim2.new(0, 6, 0, 424),
+    BackgroundTransparency = 1
+}, FlingRoot)
+
+FlingSelectedBtn = Create("TextButton", {
+    Size = UDim2.new(1, 0, 0, 50),
+    Position = UDim2.new(0, 0, 0, 0),
+    BackgroundColor3 = C.Blue,
+    Text = "FLING SELECTED PLAYER",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, FlingButtonsCard)
+
+Round(FlingSelectedBtn, 10)
+Outline(FlingSelectedBtn, C.Cyan, 1, 0.3)
+MakeGradient(FlingSelectedBtn, C.Blue2, C.Violet, 0)
+
+FlingAllBtn = Create("TextButton", {
+    Size = UDim2.new(1, 0, 0, 50),
+    Position = UDim2.new(0, 0, 0, 60),
+    BackgroundColor3 = C.Red,
+    Text = "FLING ALL PLAYERS",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, FlingButtonsCard)
+
+Round(FlingAllBtn, 10)
+Outline(FlingAllBtn, C.Pink, 1, 0.3)
+
+--========================================================
+-- INFINITE YIELD FLING LOGIC
+--========================================================
+
+function ExecuteFling(targetPlayer)
+    if not targetPlayer or not targetPlayer.Character then return end
+    
+    local hrp = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if hrp then
+        -- Infinite Yield's overpowered fling method
+        hrp.CustomPhysicalProperties = PhysicalProperties.new(100, 100, 100, 100, 100)
+        hrp.Velocity = Vector3.new(FlingPower, FlingPower, FlingPower)
+        hrp.RotVelocity = Vector3.new(FlingPower, FlingPower, FlingPower)
+        hrp.CanCollide = false
+    end
+end
+
+FlingSelectedBtn.MouseButton1Click:Connect(function()
+    if FlingSelectedPlayer then
+        ExecuteFling(FlingSelectedPlayer)
+        FlingSelectedBtn.Text = "FLUNG!"
+        task.wait(1)
+        FlingSelectedBtn.Text = "FLING SELECTED PLAYER"
+    end
+end)
+
+FlingAllBtn.MouseButton1Click:Connect(function()
+    if FlingAllBtn.Text == "FLINGING..." then return end
+    FlingAllBtn.Text = "FLINGING..."
+    Animate(FlingAllBtn, { BackgroundColor3 = C.Pink })
+    
+    task.spawn(function()
+        for _, p in ipairs(Players:GetPlayers()) do
+            if p ~= Player then
+                ExecuteFling(p)
+                task.wait(0.1) -- Fast execution for "Fling All"
+            end
+        end
+        FlingAllBtn.Text = "FLING ALL PLAYERS"
+        Animate(FlingAllBtn, { BackgroundColor3 = C.Red })
+    end)
+end)
+
+print("PERFECT FLING SYSTEM READY")
+--========================================================
+-- PART 11: UTILITIES (INFINITE YIELD & TELEPORT)
+--========================================================
+
+UtilitiesPage = Pages["Utilities"] or CreatePage("Utilities")
+
+-- Clear old children (safety)
+for _, child in ipairs(UtilitiesPage:GetChildren()) do
+    if not child:IsA("UIPadding") and not child:IsA("UIListLayout") then
+        child:Destroy()
+    end
+end
+
+AddText(UtilitiesPage, "UTILITIES", 32, C.Cyan, Enum.Font.GothamBold)
+AddText(UtilitiesPage, "Game controls and quality-of-life tools", 22, C.Gray)
+
+-- 0. INFINITE YIELD LOADER
+IYCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 140),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, UtilitiesPage)
+
+Round(IYCard, 12)
+Outline(IYCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 22),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "INFINITE YIELD",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 13,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, IYCard)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.fromOffset(12, 28),
+    BackgroundTransparency = 1,
+    Text = "One-tap loader — no cached version needed",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 9,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, IYCard)
+
+IYBtn = Create("TextButton", {
+    Size = UDim2.new(1, -24, 0, 40),
+    Position = UDim2.new(0, 12, 0, 52),
+    BackgroundColor3 = C.Blue,
+    Text = "LOAD INFINITE YIELD",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, IYCard)
+
+Round(IYBtn, 9)
+Outline(IYBtn, C.Cyan, 1, 0.3)
+MakeGradient(IYBtn, C.Blue2, C.Violet, 0)
+
+IYStatus = Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 20),
+    Position = UDim2.fromOffset(12, 100),
+    BackgroundTransparency = 1,
+    Text = "● READY — tap to load",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, IYCard)
+
+IYConfirmPending = false
+
+IYBtn.MouseButton1Click:Connect(function()
+    if not IYConfirmPending then
+        IYConfirmPending = true
+        IYBtn.Text = "TAP AGAIN TO CONFIRM"
+        Animate(IYBtn, { BackgroundColor3 = C.Red })
+        IYStatus.Text = "● Tap again to load Infinite Yield"
+        IYStatus.TextColor3 = C.Green
+
+        task.delay(4, function()
+            if IYConfirmPending then
+                IYConfirmPending = false
+                IYBtn.Text = "LOAD INFINITE YIELD"
+                Animate(IYBtn, { BackgroundColor3 = C.Blue })
+                IYStatus.Text = "● READY — tap to load"
+                IYStatus.TextColor3 = C.Cyan
+            end
+        end)
+        return
+    end
+
+    IYConfirmPending = false
+    IYBtn.Text = "LOADING..."
+    Animate(IYBtn, { BackgroundColor3 = C.Blue2 })
+    IYStatus.Text = "● Loading Infinite Yield..."
+    IYStatus.TextColor3 = C.Cyan
+
+    task.spawn(function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+        end)
+
+        if success then
+            IYBtn.Text = "LOADED ✓"
+            Animate(IYBtn, { BackgroundColor3 = C.Green })
+            IYStatus.Text = "● Infinite Yield is running"
+            IYStatus.TextColor3 = C.Green
+
+            task.delay(3, function()
+                IYBtn.Text = "LOAD AGAIN"
+                Animate(IYBtn, { BackgroundColor3 = C.Blue })
+                IYStatus.Text = "● READY — tap to reload"
+                IYStatus.TextColor3 = C.Cyan
+            end)
+        else
+            IYBtn.Text = "FAILED — RETRY"
+            Animate(IYBtn, { BackgroundColor3 = C.Red })
+            IYStatus.Text = "● Failed: " .. tostring(err):sub(1, 40)
+            IYStatus.TextColor3 = C.Red
+
+            task.delay(4, function()
+                IYBtn.Text = "LOAD INFINITE YIELD"
+                Animate(IYBtn, { BackgroundColor3 = C.Blue })
+                IYStatus.Text = "● READY — tap to load"
+                IYStatus.TextColor3 = C.Cyan
+            end)
+        end
+    end)
+end)
+
+-- 1. TELEPORT TO PLAYER
+TPSelectedPlayer = nil
+
+MakePremiumSelector(UtilitiesPage, 0, "TELEPORT TO PLAYER", function(selectedPlayer)
+    TPSelectedPlayer = selectedPlayer
+end)
+
+TPGoCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 60),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, UtilitiesPage)
+
+Round(TPGoCard, 12)
+Outline(TPGoCard, C.Cyan, 1, 0.5)
+
+TPGoBtn = Create("TextButton", {
+    Size = UDim2.new(1, -24, 0, 40),
+    Position = UDim2.new(0, 12, 0.5, -20),
+    BackgroundColor3 = C.Blue,
+    Text = "TELEPORT TO SELECTED",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, TPGoCard)
+
+Round(TPGoBtn, 9)
+Outline(TPGoBtn, C.Cyan, 1, 0.3)
+MakeGradient(TPGoBtn, C.Blue2, C.Violet, 0)
+
+TPGoBtn.MouseButton1Click:Connect(function()
+    if not TPSelectedPlayer then
+        TPGoBtn.Text = "NO TARGET SELECTED"
+        task.wait(1)
+        TPGoBtn.Text = "TELEPORT TO SELECTED"
+        return
+    end
+    
+    local targetChar = TPSelectedPlayer.Character
+    if not targetChar then return end
+    local targetRoot = targetChar:FindFirstChild("HumanoidRootPart")
+    if not targetRoot then return end
+
+    local myChar = Player.Character
+    local myRoot = myChar and myChar:FindFirstChild("HumanoidRootPart")
+    if not myRoot then return end
+
+    myRoot.CFrame = targetRoot.CFrame + Vector3.new(0, 3, 0)
+    
+    TPGoBtn.Text = "TELEPORTED!"
+    task.wait(1)
+    TPGoBtn.Text = "TELEPORT TO SELECTED"
+end)
+
+print("PERFECT UTILITIES PART 1 READY")
+--========================================================
+-- PART 12: UTILITIES (TP TOOL, SPEED, JUMP)
+--========================================================
+
+-- 2. TP TOOL GIVER
+TPToolCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 88),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, UtilitiesPage)
+
+Round(TPToolCard, 12)
+Outline(TPToolCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -100, 0, 20),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "TP TOOL",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, TPToolCard)
+
+TPToolStatus = Create("TextLabel", {
+    Size = UDim2.new(1, -100, 0, 18),
+    Position = UDim2.fromOffset(12, 28),
+    BackgroundTransparency = 1,
+    Text = "Tap anywhere in-world to teleport",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 9,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, TPToolCard)
+
+TPToolBadge = Create("Frame", {
+    Size = UDim2.fromOffset(56, 20),
+    Position = UDim2.new(1, -68, 0, 5),
+    BackgroundColor3 = C.Blue2,
+    BorderSizePixel = 0
+}, TPToolCard)
+
+Round(TPToolBadge, 10)
+Outline(TPToolBadge, C.Cyan, 1, 0.5)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, 0, 1, 0),
+    BackgroundTransparency = 1,
+    Text = "READY",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Center
+}, TPToolBadge)
+
+TPToolBtn = Create("TextButton", {
+    Size = UDim2.new(1, -24, 0, 34),
+    Position = UDim2.new(0, 12, 0, 50),
+    BackgroundColor3 = C.Blue,
+    Text = "GIVE TP TOOL",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, TPToolCard)
+
+Round(TPToolBtn, 9)
+Outline(TPToolBtn, C.Cyan, 1, 0.3)
+
+function removeTPTool()
+    local char = Player.Character
+    if not char then return end
+    local tool = char:FindFirstChild("PERFECT_TP_TOOL")
+    if tool then tool:Destroy() end
+    local pack = Player:FindFirstChildOfClass("Backpack")
+    if pack then
+        local t2 = pack:FindFirstChild("PERFECT_TP_TOOL")
+        if t2 then t2:Destroy() end
+    end
+end
+
+function giveTPTool()
+    removeTPTool()
+    local char = Player.Character
+    if not char then return end
+
+    local tool = Instance.new("Tool")
+    tool.Name = "PERFECT_TP_TOOL"
+    tool.RequiresHandle = false
+    tool.CanBeDropped = false
+    tool.ToolTip = "Tap anywhere to teleport"
+
+    tool.Activated:Connect(function()
+        local mouse = Player:GetMouse()
+        if not mouse or not mouse.Hit then return end
+        local root = char:FindFirstChild("HumanoidRootPart")
+        if root then
+            root.CFrame = CFrame.new(mouse.Hit.Position + Vector3.new(0, 3, 0))
+        end
+    end)
+
+    tool.Parent = char
+end
+
+TPToolBtn.MouseButton1Click:Connect(function()
+    giveTPTool()
+    TPToolStatus.Text = "Tool given — tap anywhere to teleport"
+    TPToolStatus.TextColor3 = C.Green
+
+    task.delay(3, function()
+        TPToolStatus.Text = "Tap anywhere in-world to teleport"
+        TPToolStatus.TextColor3 = C.Gray
+    end)
+end)
+
+Player.CharacterAdded:Connect(function()
+    task.wait(0.5)
+    removeTPTool()
+end)
+
+-- 3. WALK SPEED SLIDER
+SpeedCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 88),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, UtilitiesPage)
+
+Round(SpeedCard, 12)
+Outline(SpeedCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "WALK SPEED",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, SpeedCard)
+
+SpeedBadge = Create("Frame", {
+    Size = UDim2.fromOffset(56, 20),
+    Position = UDim2.new(1, -68, 0, 5),
+    BackgroundColor3 = C.Blue2,
+    BorderSizePixel = 0
+}, SpeedCard)
+
+Round(SpeedBadge, 10)
+Outline(SpeedBadge, C.Cyan, 1, 0.5)
+
+SpeedValueLabel = Create("TextLabel", {
+    Size = UDim2.new(1, 0, 1, 0),
+    BackgroundTransparency = 1,
+    Text = "16",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Center
+}, SpeedBadge)
+
+SpeedTrack = Create("Frame", {
+    Size = UDim2.new(1, -24, 0, 10),
+    Position = UDim2.new(0, 12, 0, 52),
+    BackgroundColor3 = C.Background,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, SpeedCard)
+
+Round(SpeedTrack, 5)
+Outline(SpeedTrack, C.Cyan, 1, 0.55)
+
+SpeedFill = Create("Frame", {
+    Size = UDim2.new(0, 0, 1, 0),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, SpeedTrack)
+Round(SpeedFill, 5)
+MakeGradient(SpeedFill, C.Cyan, C.Violet, 0)
+
+SpeedKnobGlow = Create("Frame", {
+    Size = UDim2.fromOffset(26, 26),
+    Position = UDim2.new(0, -13, 0.5, -13),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.75,
+    BorderSizePixel = 0,
+    ZIndex = 4
+}, SpeedTrack)
+Round(SpeedKnobGlow, 13)
+
+SpeedKnob = Create("Frame", {
+    Size = UDim2.fromOffset(18, 18),
+    Position = UDim2.new(0, -9, 0.5, -9),
+    BackgroundColor3 = C.Blue,
+    BorderSizePixel = 0,
+    ZIndex = 5
+}, SpeedTrack)
+Round(SpeedKnob, 9)
+Outline(SpeedKnob, C.Cyan, 1.5, 0)
+
+SpeedKnobCore = Create("Frame", {
+    Size = UDim2.fromOffset(4, 4),
+    Position = UDim2.new(0.5, -2, 0.5, -2),
+    BackgroundColor3 = C.White,
+    BorderSizePixel = 0,
+    ZIndex = 6
+}, SpeedKnob)
+Round(SpeedKnobCore, 2)
+
+SPEED_MIN = 1
+SPEED_MAX = 1000
+SpeedCurrent = 16
+
+function UpdateSpeed(value)
+    SpeedCurrent = value
+    SpeedValueLabel.Text = tostring(value)
+    local char = Player.Character
+    local hum = char and char:FindFirstChildOfClass("Humanoid")
+    if hum then hum.WalkSpeed = value end
+end
+
+function SpeedFromPosition(xPosition)
+    local trackWidth = SpeedTrack.AbsoluteSize.X
+    if trackWidth <= 0 then return end
+    local relative = math.clamp(xPosition / trackWidth, 0, 1)
+    local value = math.floor(SPEED_MIN + (SPEED_MAX - SPEED_MIN) * relative + 0.5)
+    UpdateSpeed(value)
+    local knobPos = relative * trackWidth
+    SpeedKnob.Position = UDim2.new(0, knobPos - 9, 0.5, -9)
+    SpeedKnobGlow.Position = UDim2.new(0, knobPos - 13, 0.5, -13)
+    SpeedFill.Size = UDim2.new(relative, 0, 1, 0)
+end
+
+SpeedDragging = false
+SpeedTrack.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        SpeedDragging = true
+        SpeedFromPosition(input.Position.X - SpeedTrack.AbsolutePosition.X)
+        Animate(SpeedKnobGlow, { BackgroundTransparency = 0.6 }, 0.15)
+    end
+end)
+UIS.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        SpeedDragging = false
+        Animate(SpeedKnobGlow, { BackgroundTransparency = 0.75 }, 0.2)
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if SpeedDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        SpeedFromPosition(input.Position.X - SpeedTrack.AbsolutePosition.X)
+    end
+end)
+Player.CharacterAdded:Connect(function(char)
+    task.wait(1)
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    if hum then hum.WalkSpeed = SpeedCurrent end
+end)
+task.defer(function()
+    task.wait(0.2)
+    local trackWidth = SpeedTrack.AbsoluteSize.X
+    if trackWidth > 0 then
+        local relative = (16 - SPEED_MIN) / (SPEED_MAX - SPEED_MIN)
+        local knobPos = relative * trackWidth
+        SpeedKnob.Position = UDim2.new(0, knobPos - 9, 0.5, -9)
+        SpeedKnobGlow.Position = UDim2.new(0, knobPos - 13, 0.5, -13)
+        SpeedFill.Size = UDim2.new(relative, 0, 1, 0)
+    end
+    UpdateSpeed(16)
+end)
+
+-- 4. JUMP POWER SLIDER
+JumpCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 88),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, UtilitiesPage)
+
+Round(JumpCard, 12)
+Outline(JumpCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "JUMP POWER",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, JumpCard)
+
+JumpBadge = Create("Frame", {
+    Size = UDim2.fromOffset(56, 20),
+    Position = UDim2.new(1, -68, 0, 5),
+    BackgroundColor3 = C.Blue2,
+    BorderSizePixel = 0
+}, JumpCard)
+
+Round(JumpBadge, 10)
+Outline(JumpBadge, C.Cyan, 1, 0.5)
+
+JumpValueLabel = Create("TextLabel", {
+    Size = UDim2.new(1, 0, 1, 0),
+    BackgroundTransparency = 1,
+    Text = "50",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Center
+}, JumpBadge)
+
+JumpTrack = Create("Frame", {
+    Size = UDim2.new(1, -24, 0, 10),
+    Position = UDim2.new(0, 12, 0, 52),
+    BackgroundColor3 = C.Background,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, JumpCard)
+
+Round(JumpTrack, 5)
+Outline(JumpTrack, C.Cyan, 1, 0.55)
+
+JumpFill = Create("Frame", {
+    Size = UDim2.new(0, 0, 1, 0),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, JumpTrack)
+Round(JumpFill, 5)
+MakeGradient(JumpFill, C.Cyan, C.Violet, 0)
+
+JumpKnobGlow = Create("Frame", {
+    Size = UDim2.fromOffset(26, 26),
+    Position = UDim2.new(0, -13, 0.5, -13),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.75,
+    BorderSizePixel = 0,
+    ZIndex = 4
+}, JumpTrack)
+Round(JumpKnobGlow, 13)
+
+JumpKnob = Create("Frame", {
+    Size = UDim2.fromOffset(18, 18),
+    Position = UDim2.new(0, -9, 0.5, -9),
+    BackgroundColor3 = C.Blue,
+    BorderSizePixel = 0,
+    ZIndex = 5
+}, JumpTrack)
+Round(JumpKnob, 9)
+Outline(JumpKnob, C.Cyan, 1.5, 0)
+
+JumpKnobCore = Create("Frame", {
+    Size = UDim2.fromOffset(4, 4),
+    Position = UDim2.new(0.5, -2, 0.5, -2),
+    BackgroundColor3 = C.White,
+    BorderSizePixel = 0,
+    ZIndex = 6
+}, JumpKnob)
+Round(JumpKnobCore, 2)
+
+JUMP_MIN = 50
+JUMP_MAX = 500
+JumpCurrent = 50
+
+function UpdateJump(value)
+    JumpCurrent = value
+    JumpValueLabel.Text = tostring(value)
+    local char = Player.Character
+    local hum = char and char:FindFirstChildOfClass("Humanoid")
+    if hum then
+        hum.UseJumpPower = true
+        hum.JumpPower = value
+    end
+end
+
+function JumpFromPosition(xPosition)
+    local trackWidth = JumpTrack.AbsoluteSize.X
+    if trackWidth <= 0 then return end
+    local relative = math.clamp(xPosition / trackWidth, 0, 1)
+    local value = math.floor(JUMP_MIN + (JUMP_MAX - JUMP_MIN) * relative + 0.5)
+    UpdateJump(value)
+    local knobPos = relative * trackWidth
+    JumpKnob.Position = UDim2.new(0, knobPos - 9, 0.5, -9)
+    JumpKnobGlow.Position = UDim2.new(0, knobPos - 13, 0.5, -13)
+    JumpFill.Size = UDim2.new(relative, 0, 1, 0)
+end
+
+JumpDragging = false
+JumpTrack.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        JumpDragging = true
+        JumpFromPosition(input.Position.X - JumpTrack.AbsolutePosition.X)
+        Animate(JumpKnobGlow, { BackgroundTransparency = 0.6 }, 0.15)
+    end
+end)
+UIS.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        JumpDragging = false
+        Animate(JumpKnobGlow, { BackgroundTransparency = 0.75 }, 0.2)
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if JumpDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        JumpFromPosition(input.Position.X - JumpTrack.AbsolutePosition.X)
+    end
+end)
+Player.CharacterAdded:Connect(function(char)
+    task.wait(1)
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    if hum then
+        hum.UseJumpPower = true
+        hum.JumpPower = JumpCurrent
+    end
+end)
+task.defer(function()
+    task.wait(0.2)
+    local trackWidth = JumpTrack.AbsoluteSize.X
+    if trackWidth > 0 then
+        local relative = (50 - JUMP_MIN) / (JUMP_MAX - JUMP_MIN)
+        local knobPos = relative * trackWidth
+        JumpKnob.Position = UDim2.new(0, knobPos - 9, 0.5, -9)
+        JumpKnobGlow.Position = UDim2.new(0, knobPos - 13, 0.5, -13)
+        JumpFill.Size = UDim2.new(relative, 0, 1, 0)
+    end
+    UpdateJump(50)
+end)
+
+print("PERFECT UTILITIES PART 2 READY")
+--========================================================
+-- PART 13: UTILITIES (FULLBRIGHT, REJOIN, HOP)
+--========================================================
+
+-- 5. FULLBRIGHT
+Lighting = game:GetService("Lighting")
+
+FullbrightCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 60),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, UtilitiesPage)
+
+Round(FullbrightCard, 12)
+Outline(FullbrightCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -80, 1, 0),
+    Position = UDim2.fromOffset(12, 0),
+    BackgroundTransparency = 1,
+    Text = "FULLBRIGHT",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, FullbrightCard)
+
+FullbrightActive = false
+FullbrightBtn = Create("TextButton", {
+    Size = UDim2.fromOffset(42, 22),
+    Position = UDim2.new(1, -53, 0.5, -11),
+    BackgroundColor3 = C.Background,
+    Text = "",
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, FullbrightCard)
+
+Round(FullbrightBtn, 12)
+Outline(FullbrightBtn, C.Cyan, 1, 0.45)
+
+FullbrightKnob = Create("Frame", {
+    Size = UDim2.fromOffset(16, 16),
+    Position = UDim2.fromOffset(3, 3),
+    BackgroundColor3 = C.White,
+    BorderSizePixel = 0
+}, FullbrightBtn)
+Round(FullbrightKnob, 20)
+
+originalBrightness = Lighting.Brightness
+originalAmbient = Lighting.Ambient
+originalOutdoor = Lighting.OutdoorAmbient
+originalShadows = Lighting.GlobalShadows
+originalFog = Lighting.FogEnd
+
+FullbrightBtn.MouseButton1Click:Connect(function()
+    FullbrightActive = not FullbrightActive
+    Animate(FullbrightBtn, { BackgroundColor3 = FullbrightActive and C.Blue or C.Background })
+    Animate(FullbrightKnob, { Position = FullbrightActive and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3) })
+
+    if FullbrightActive then
+        Lighting.Brightness = 5
+        Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+        Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+        Lighting.GlobalShadows = false
+        Lighting.FogEnd = 100000
+    else
+        Lighting.Brightness = originalBrightness
+        Lighting.OutdoorAmbient = originalOutdoor
+        Lighting.Ambient = originalAmbient
+        Lighting.GlobalShadows = originalShadows
+        Lighting.FogEnd = originalFog
+    end
+end)
+
+-- 6. REJOIN SERVER
+RejoinCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 88),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, UtilitiesPage)
+
+Round(RejoinCard, 12)
+Outline(RejoinCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -100, 0, 20),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "REJOIN SERVER",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, RejoinCard)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -100, 0, 18),
+    Position = UDim2.fromOffset(12, 28),
+    BackgroundTransparency = 1,
+    Text = "Reconnect to the same server",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 9,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, RejoinCard)
+
+RejoinBtn = Create("TextButton", {
+    Size = UDim2.new(1, -24, 0, 34),
+    Position = UDim2.new(0, 12, 0, 50),
+    BackgroundColor3 = C.Blue,
+    Text = "REJOIN",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, RejoinCard)
+
+Round(RejoinBtn, 9)
+Outline(RejoinBtn, C.Cyan, 1, 0.3)
+
+RejoinBtn.MouseButton1Click:Connect(function()
+    RejoinBtn.Text = "..."
+    pcall(function()
+        game:GetService("TeleportService"):TeleportToPlaceInstance(
+            game.PlaceId,
+            game.JobId,
+            Player
+        )
+    end)
+end)
+
+-- 7. SERVER HOP
+HopCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 88),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, UtilitiesPage)
+
+Round(HopCard, 12)
+Outline(HopCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -100, 0, 20),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "SERVER HOP",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, HopCard)
+
+HopStatus = Create("TextLabel", {
+    Size = UDim2.new(1, -100, 0, 18),
+    Position = UDim2.fromOffset(12, 28),
+    BackgroundTransparency = 1,
+    Text = "Jump to a random server",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 9,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, HopCard)
+
+HopBtn = Create("TextButton", {
+    Size = UDim2.new(1, -24, 0, 34),
+    Position = UDim2.new(0, 12, 0, 50),
+    BackgroundColor3 = C.Blue,
+    Text = "HOP",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, HopCard)
+
+Round(HopBtn, 9)
+Outline(HopBtn, C.Cyan, 1, 0.3)
+
+HopBtn.MouseButton1Click:Connect(function()
+    HopBtn.Text = "..."
+
+    task.spawn(function()
+        local success, result = pcall(function()
+            local url = string.format(
+                "https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100",
+                game.PlaceId
+            )
+
+            local raw = game:HttpGet(url)
+            local data = game:GetService("HttpService"):JSONDecode(raw)
+
+            if not data or not data.data then return nil end
+
+            local candidates = {}
+            for _, srv in ipairs(data.data) do
+                if srv.id ~= game.JobId
+                and srv.playing < srv.maxPlayers
+                and srv.playing > 0 then
+                    table.insert(candidates, srv.id)
+                end
+            end
+
+            if #candidates == 0 then return nil end
+            return candidates[math.random(1, #candidates)]
+        end)
+
+        if success and result then
+            pcall(function()
+                game:GetService("TeleportService"):TeleportToPlaceInstance(
+                    game.PlaceId,
+                    result,
+                    Player
+                )
+            end)
+        else
+            HopBtn.Text = "FAIL"
+            HopStatus.Text = "Couldn't find a server"
+            HopStatus.TextColor3 = C.Red
+            task.wait(2)
+            HopBtn.Text = "HOP"
+            HopStatus.Text = "Jump to a random server"
+            HopStatus.TextColor3 = C.Gray
+        end
+    end)
+end)
+
+print("PERFECT UTILITIES READY")
+--========================================================
+-- PART 14: SETTINGS (CROSSHAIR & THEMES)
+--========================================================
+
+SettingsPage = Pages["Settings"] or CreatePage("Settings")
+
+-- Clear old children (safety)
+for _, child in ipairs(SettingsPage:GetChildren()) do
+    if not child:IsA("UIPadding") and not child:IsA("UIListLayout") then
+        child:Destroy()
+    end
+end
+
+AddText(SettingsPage, "SETTINGS", 32, C.Cyan, Enum.Font.GothamBold)
+AddText(SettingsPage, "Customize your PERFECT experience", 22, C.Gray)
+
+GUIScale = Instance.new("UIScale")
+GUIScale.Scale = 1
+GUIScale.Parent = GUI
+
+CurrentTransparency = 0
+NotificationsEnabled = true
+
+-- 1. CUSTOM CROSSHAIR
+CrosshairActive = false
+CrosshairStyle = "DOT"
+CrosshairColor = C.Cyan
+CrosshairSize = 10
+
+CrosshairCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 210),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, SettingsPage)
+
+Round(CrosshairCard, 12)
+Outline(CrosshairCard, C.Cyan, 1, 0.5)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -80, 0, 20),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "CUSTOM CROSSHAIR",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, CrosshairCard)
+
+CrosshairToggleBtn = Create("TextButton", {
+    Size = UDim2.fromOffset(42, 22),
+    Position = UDim2.new(1, -53, 0, 5),
+    BackgroundColor3 = C.Background,
+    Text = "",
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, CrosshairCard)
+
+Round(CrosshairToggleBtn, 12)
+Outline(CrosshairToggleBtn, C.Cyan, 1, 0.45)
+
+CrosshairToggleKnob = Create("Frame", {
+    Size = UDim2.fromOffset(16, 16),
+    Position = UDim2.fromOffset(3, 3),
+    BackgroundColor3 = C.White,
+    BorderSizePixel = 0
+}, CrosshairToggleBtn)
+Round(CrosshairToggleKnob, 20)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 16),
+    Position = UDim2.fromOffset(12, 34),
+    BackgroundTransparency = 1,
+    Text = "STYLE",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.GothamBold,
+    TextSize = 9,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, CrosshairCard)
+
+StyleRow = Create("Frame", {
+    Size = UDim2.new(1, -24, 0, 30),
+    Position = UDim2.fromOffset(12, 52),
+    BackgroundTransparency = 1
+}, CrosshairCard)
+
+Create("UIListLayout", {
+    FillDirection = Enum.FillDirection.Horizontal,
+    Padding = UDim.new(0, 6)
+}, StyleRow)
+
+CrosshairStyles = {"DOT", "CROSS", "CIRCLE", "MAGIC"}
+
+for i, style in ipairs(CrosshairStyles) do
+    local btn = Create("TextButton", {
+        Size = UDim2.new(0.25, -5, 1, 0),
+        BackgroundColor3 = style == CrosshairStyle and C.Blue or C.Background,
+        Text = style,
+        TextColor3 = C.White,
+        Font = Enum.Font.GothamBold,
+        TextSize = 9,
+        BorderSizePixel = 0,
+        AutoButtonColor = false,
+        LayoutOrder = i
+    }, StyleRow)
+    Round(btn, 6)
+    Outline(btn, C.Cyan, 1, 0.5)
+    
+    btn.MouseButton1Click:Connect(function()
+        CrosshairStyle = style
+        for _, b in ipairs(StyleRow:GetChildren()) do
+            if b:IsA("TextButton") then
+                b.BackgroundColor3 = (b.Text == style) and C.Blue or C.Background
+            end
+        end
+        if UpdateCrosshairVisual then UpdateCrosshairVisual() end
+    end)
+end
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 16),
+    Position = UDim2.fromOffset(12, 92),
+    BackgroundTransparency = 1,
+    Text = "COLOR",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.GothamBold,
+    TextSize = 9,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, CrosshairCard)
+
+ColorRow = Create("Frame", {
+    Size = UDim2.new(1, -24, 0, 30),
+    Position = UDim2.fromOffset(12, 110),
+    BackgroundTransparency = 1
+}, CrosshairCard)
+
+Create("UIListLayout", {
+    FillDirection = Enum.FillDirection.Horizontal,
+    Padding = UDim.new(0, 6)
+}, ColorRow)
+
+CrosshairColorList = {
+    {name = "AURORA", color = THEMES.AURORA.Cyan},
+    {name = "CRIMSON", color = THEMES.CRIMSON.Cyan},
+    {name = "EMERALD", color = THEMES.EMERALD.Cyan},
+    {name = "VIOLET", color = THEMES.VIOLET.Cyan},
+    {name = "SUNSET", color = THEMES.SUNSET.Cyan},
+    {name = "MONO", color = THEMES.MONO.Cyan}
+}
+
+for i, cData in ipairs(CrosshairColorList) do
+    local btn = Create("TextButton", {
+        Size = UDim2.new(1/6, -5, 1, 0),
+        BackgroundColor3 = cData.color,
+        Text = "",
+        BorderSizePixel = 0,
+        AutoButtonColor = false,
+        LayoutOrder = i
+    }, ColorRow)
+    Round(btn, 6)
+    Outline(btn, C.White, 1, 0.5)
+    
+    btn.MouseButton1Click:Connect(function()
+        CrosshairColor = cData.color
+        if UpdateCrosshairVisual then UpdateCrosshairVisual() end
+    end)
+end
+
+Create("TextLabel", {
+    Size = UDim2.new(0, 50, 0, 16),
+    Position = UDim2.fromOffset(12, 150),
+    BackgroundTransparency = 1,
+    Text = "SIZE",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.GothamBold,
+    TextSize = 9,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, CrosshairCard)
+
+CrosshairSizeVal = Create("TextLabel", {
+    Size = UDim2.new(0, 50, 0, 16),
+    Position = UDim2.new(1, -62, 0, 150),
+    BackgroundTransparency = 1,
+    Text = "10",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 9,
+    TextXAlignment = Enum.TextXAlignment.Right
+}, CrosshairCard)
+
+SizeTrack = Create("Frame", {
+    Size = UDim2.new(1, -24, 0, 8),
+    Position = UDim2.fromOffset(12, 176),
+    BackgroundColor3 = C.Background,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, CrosshairCard)
+
+Round(SizeTrack, 4)
+Outline(SizeTrack, C.Cyan, 1, 0.55)
+
+SizeFill = Create("Frame", {
+    Size = UDim2.new(0.1, 0, 1, 0),
+    BackgroundColor3 = C.Cyan,
+    BorderSizePixel = 0
+}, SizeTrack)
+Round(SizeFill, 4)
+
+SizeKnob = Create("Frame", {
+    Size = UDim2.fromOffset(14, 14),
+    Position = UDim2.new(0.1, -7, 0.5, -7),
+    BackgroundColor3 = C.White,
+    BorderSizePixel = 0,
+    ZIndex = 5
+}, SizeTrack)
+Round(SizeKnob, 7)
+Outline(SizeKnob, C.Cyan, 1, 0)
+
+function UpdateSizeVisuals(relative)
+    CrosshairSize = math.floor(5 + (relative * 35))
+    CrosshairSizeVal.Text = tostring(CrosshairSize)
+    SizeKnob.Position = UDim2.new(relative, -7, 0.5, -7)
+    SizeFill.Size = UDim2.new(relative, 0, 1, 0)
+    if UpdateCrosshairVisual then UpdateCrosshairVisual() end
+end
+
+sizeDragging = false
+SizeTrack.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        sizeDragging = true
+        local rel = math.clamp((input.Position.X - SizeTrack.AbsolutePosition.X) / SizeTrack.AbsoluteSize.X, 0, 1)
+        UpdateSizeVisuals(rel)
+    end
+end)
+UIS.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        sizeDragging = false
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if sizeDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local rel = math.clamp((input.Position.X - SizeTrack.AbsolutePosition.X) / SizeTrack.AbsoluteSize.X, 0, 1)
+        UpdateSizeVisuals(rel)
+    end
+end)
+
+CrosshairToggleBtn.MouseButton1Click:Connect(function()
+    CrosshairActive = not CrosshairActive
+    Animate(CrosshairToggleBtn, { BackgroundColor3 = CrosshairActive and C.Blue or C.Background })
+    Animate(CrosshairToggleKnob, { Position = CrosshairActive and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3) })
+    CrosshairGUI.Visible = CrosshairActive
+end)
+
+-- Crosshair GUI
+CrosshairGUI = Create("Frame", {
+    Name = "CustomCrosshair",
+    Size = UDim2.fromOffset(100, 100),
+    Position = UDim2.new(0.5, -50, 0.5, -50),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    Visible = false,
+    ZIndex = 9999,
+    Parent = GUI
+})
+
+CrosshairDot = Create("Frame", { Size = UDim2.fromOffset(10, 10), Position = UDim2.new(0.5, -5, 0.5, -5), BackgroundColor3 = CrosshairColor, BorderSizePixel = 0 }, CrosshairGUI)
+Round(CrosshairDot, 10)
+
+CrosshairCrossTop = Create("Frame", { Size = UDim2.fromOffset(2, 12), Position = UDim2.new(0.5, -1, 0.5, -22), BackgroundColor3 = CrosshairColor, BorderSizePixel = 0 }, CrosshairGUI)
+CrosshairCrossBottom = Create("Frame", { Size = UDim2.fromOffset(2, 12), Position = UDim2.new(0.5, -1, 0.5, 10), BackgroundColor3 = CrosshairColor, BorderSizePixel = 0 }, CrosshairGUI)
+CrosshairCrossLeft = Create("Frame", { Size = UDim2.fromOffset(12, 2), Position = UDim2.new(0.5, -22, 0.5, -1), BackgroundColor3 = CrosshairColor, BorderSizePixel = 0 }, CrosshairGUI)
+CrosshairCrossRight = Create("Frame", { Size = UDim2.fromOffset(12, 2), Position = UDim2.new(0.5, 10, 0.5, -1), BackgroundColor3 = CrosshairColor, BorderSizePixel = 0 }, CrosshairGUI)
+
+CrosshairCircle = Create("Frame", { Size = UDim2.fromOffset(40, 40), Position = UDim2.new(0.5, -20, 0.5, -20), BackgroundTransparency = 1, BorderSizePixel = 0 }, CrosshairGUI)
+Round(CrosshairCircle, 20)
+CrosshairCircleStroke = Outline(CrosshairCircle, CrosshairColor, 2, 0)
+
+CrosshairMagic = Create("ImageLabel", {
+    Name = "MagicCrosshair",
+    Size = UDim2.fromOffset(80, 80),
+    Position = UDim2.new(0.5, -40, 0.5, -40),
+    BackgroundTransparency = 1,
+    Image = "rbxassetid://94508247797691",
+    ImageColor3 = CrosshairColor,
+    ImageTransparency = 0.2,
+    Visible = false
+}, CrosshairGUI)
+
+function UpdateCrosshairVisual()
+    CrosshairDot.BackgroundColor3 = CrosshairColor
+    CrosshairCrossTop.BackgroundColor3 = CrosshairColor
+    CrosshairCrossBottom.BackgroundColor3 = CrosshairColor
+    CrosshairCrossLeft.BackgroundColor3 = CrosshairColor
+    CrosshairCrossRight.BackgroundColor3 = CrosshairColor
+    CrosshairCircleStroke.Color = CrosshairColor
+    CrosshairMagic.ImageColor3 = CrosshairColor
+    
+    local s = CrosshairSize
+    CrosshairDot.Size = UDim2.fromOffset(s, s)
+    CrosshairDot.Position = UDim2.new(0.5, -s/2, 0.5, -s/2)
+    
+    local gap = s + 2
+    
+    CrosshairCrossTop.Size = UDim2.fromOffset(2, s)
+    CrosshairCrossTop.Position = UDim2.new(0.5, -1, 0.5, -gap - s)
+    CrosshairCrossBottom.Size = UDim2.fromOffset(2, s)
+    CrosshairCrossBottom.Position = UDim2.new(0.5, -1, 0.5, gap)
+    CrosshairCrossLeft.Size = UDim2.fromOffset(s, 2)
+    CrosshairCrossLeft.Position = UDim2.new(0.5, -gap - s, 0.5, -1)
+    CrosshairCrossRight.Size = UDim2.fromOffset(s, 2)
+    CrosshairCrossRight.Position = UDim2.new(0.5, gap, 0.5, -1)
+    
+    CrosshairCircle.Size = UDim2.fromOffset(s * 3, s * 3)
+    CrosshairCircle.Position = UDim2.new(0.5, -(s * 3)/2, 0.5, -(s * 3)/2)
+    Round(CrosshairCircle, (s * 3)/2)
+    
+    CrosshairMagic.Size = UDim2.fromOffset(s * 6, s * 6)
+    CrosshairMagic.Position = UDim2.new(0.5, -(s * 6)/2, 0.5, -(s * 6)/2)
+    
+    CrosshairDot.Visible = (CrosshairStyle == "DOT")
+    CrosshairCrossTop.Visible = (CrosshairStyle == "CROSS")
+    CrosshairCrossBottom.Visible = (CrosshairStyle == "CROSS")
+    CrosshairCrossLeft.Visible = (CrosshairStyle == "CROSS")
+    CrosshairCrossRight.Visible = (CrosshairStyle == "CROSS")
+    CrosshairCircle.Visible = (CrosshairStyle == "CIRCLE")
+    CrosshairMagic.Visible = (CrosshairStyle == "MAGIC")
+end
+UpdateCrosshairVisual()
+
+--========================================================
+-- THEME PICKER
+--========================================================
+
+ThemeCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 300), -- INCREASED FROM 268 TO 300
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0,
+    ClipsDescendants = false
+}, SettingsPage)
+
+Round(ThemeCard, 12)
+Outline(ThemeCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 22),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "COLOR THEME",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, ThemeCard)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.fromOffset(12, 26),
+    BackgroundTransparency = 1,
+    Text = "Tap a theme — re-execute script to apply",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 9,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, ThemeCard)
+
+CurrentThemeLabel = Create("TextLabel", {
+    Size = UDim2.new(1, -24, 0, 20),
+    Position = UDim2.fromOffset(12, 50),
+    BackgroundTransparency = 1,
+    Text = "CURRENT: " .. tostring(SelectedThemeName or "AURORA"),
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, ThemeCard)
+
+ThemeList = {
+    {name = "AURORA",  accent = Color3.fromRGB(77, 220, 255)},
+    {name = "CRIMSON", accent = Color3.fromRGB(255, 80, 80)},
+    {name = "EMERALD", accent = Color3.fromRGB(80, 255, 180)},
+    {name = "VIOLET",  accent = Color3.fromRGB(220, 140, 255)},
+    {name = "SUNSET",  accent = Color3.fromRGB(255, 120, 40)},
+    {name = "MONO",    accent = Color3.fromRGB(245, 245, 255)}
+}
+
+ThemeGrid = Create("Frame", {
+    Size = UDim2.new(1, -24, 0, 140),
+    Position = UDim2.fromOffset(12, 78),
+    BackgroundTransparency = 1,
+    ClipsDescendants = false
+}, ThemeCard)
+
+Create("UIGridLayout", {
+    CellSize = UDim2.new(0.5, -4, 0, 62),
+    CellPadding = UDim2.new(0, 8, 0, 8),
+    SortOrder = Enum.SortOrder.LayoutOrder
+}, ThemeGrid)
+
+themeReloading = false
+
+for i, theme in ipairs(ThemeList) do
+    local btn = Create("TextButton", {
+        Size = UDim2.new(0.5, -4, 0, 62),
+        BackgroundColor3 = C.Background,
+        BorderSizePixel = 0,
+        Text = "",
+        AutoButtonColor = false,
+        LayoutOrder = i
+    }, ThemeGrid)
+
+    Round(btn, 10)
+    Outline(btn, theme.accent, 1.5, 0.35)
+
+    local swatch = Create("Frame", {
+        Size = UDim2.new(1, -16, 0, 8),
+        Position = UDim2.fromOffset(8, 10),
+        BackgroundColor3 = theme.accent,
+        BorderSizePixel = 0
+    }, btn)
+    Round(swatch, 4)
+
+    Create("TextLabel", {
+        Size = UDim2.new(1, -16, 0, 22),
+        Position = UDim2.fromOffset(8, 24),
+        BackgroundTransparency = 1,
+        Text = theme.name,
+        TextColor3 = C.White,
+        Font = Enum.Font.GothamBold,
+        TextSize = 11,
+        TextXAlignment = Enum.TextXAlignment.Left
+    }, btn)
+
+    local statusLbl = Create("TextLabel", {
+        Size = UDim2.new(1, -16, 0, 14),
+        Position = UDim2.fromOffset(8, 44),
+        BackgroundTransparency = 1,
+        Text = (theme.name == SelectedThemeName) and "ACTIVE" or "TAP TO APPLY",
+        TextColor3 = (theme.name == SelectedThemeName) and theme.accent or C.Gray,
+        Font = Enum.Font.GothamBold,
+        TextSize = 8,
+        TextXAlignment = Enum.TextXAlignment.Left
+    }, btn)
+
+    btn.MouseButton1Click:Connect(function()
+        if themeReloading then return end
+        if theme.name == SelectedThemeName then return end
+
+        themeReloading = true
+
+        pcall(function()
+            writefile("perfect_theme.txt", theme.name)
+        end)
+
+        _G.PERFECT_THEME = theme.name
+
+        CurrentThemeLabel.Text = "SAVED: " .. theme.name .. " — re-execute script"
+        CurrentThemeLabel.TextColor3 = C.Green
+
+        for _, child in ipairs(ThemeGrid:GetChildren()) do
+            if child:IsA("TextButton") then
+                child.Visible = false
+            end
+        end
+
+        local ReloadBtn = Create("TextButton", {
+            Name = "ReloadBtn",
+            Size = UDim2.new(1, 0, 1, 0),
+            BackgroundColor3 = C.Blue,
+            Text = "SAVED — RE-EXECUTE SCRIPT IN DELTA",
+            TextColor3 = C.White,
+            Font = Enum.Font.GothamBold,
+            TextSize = 12,
+            BorderSizePixel = 0,
+            AutoButtonColor = false,
+            ZIndex = 5
+        }, ThemeGrid)
+
+        Round(ReloadBtn, 10)
+        Outline(ReloadBtn, C.Cyan, 2, 0.2)
+
+        task.spawn(function()
+            task.wait(0.5)
+            pcall(function()
+                if GUI and GUI.Parent then
+                    GUI:Destroy()
+                end
+            end)
+            task.wait(0.15)
+            pcall(function()
+                loadstring(game:HttpGet(PERFECT_URL))()
+            end)
+        end)
+    end)
+end
+--========================================================
+-- PART 15: SETTINGS (TRANSPARENCY, SIZE, NOTIFICATIONS, ANTI-AFK)
+--========================================================
+
+-- 3. TRANSPARENCY SLIDER
+TransCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 88),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, SettingsPage)
+
+Round(TransCard, 12)
+Outline(TransCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "GUI TRANSPARENCY",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, TransCard)
+
+TransBadge = Create("Frame", {
+    Size = UDim2.fromOffset(56, 20),
+    Position = UDim2.new(1, -68, 0, 5),
+    BackgroundColor3 = C.Blue2,
+    BorderSizePixel = 0
+}, TransCard)
+
+Round(TransBadge, 10)
+Outline(TransBadge, C.Cyan, 1, 0.5)
+
+TransValueLabel = Create("TextLabel", {
+    Size = UDim2.new(1, 0, 1, 0),
+    BackgroundTransparency = 1,
+    Text = "0",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Center
+}, TransBadge)
+
+TransTrack = Create("Frame", {
+    Size = UDim2.new(1, -24, 0, 10),
+    Position = UDim2.new(0, 12, 0, 52),
+    BackgroundColor3 = C.Background,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, TransCard)
+
+Round(TransTrack, 5)
+Outline(TransTrack, C.Cyan, 1, 0.55)
+
+TransFill = Create("Frame", {
+    Size = UDim2.new(0, 0, 1, 0),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0
+}, TransTrack)
+Round(TransFill, 5)
+MakeGradient(TransFill, C.Cyan, C.Violet, 0)
+
+TransKnobGlow = Create("Frame", {
+    Size = UDim2.fromOffset(26, 26),
+    Position = UDim2.new(0, -13, 0.5, -13),
+    BackgroundColor3 = C.Cyan,
+    BackgroundTransparency = 0.75,
+    BorderSizePixel = 0,
+    ZIndex = 4
+}, TransTrack)
+Round(TransKnobGlow, 13)
+
+TransKnob = Create("Frame", {
+    Size = UDim2.fromOffset(18, 18),
+    Position = UDim2.new(0, -9, 0.5, -9),
+    BackgroundColor3 = C.Blue,
+    BorderSizePixel = 0,
+    ZIndex = 5
+}, TransTrack)
+Round(TransKnob, 9)
+Outline(TransKnob, C.Cyan, 1.5, 0)
+
+TransKnobCore = Create("Frame", {
+    Size = UDim2.fromOffset(4, 4),
+    Position = UDim2.new(0.5, -2, 0.5, -2),
+    BackgroundColor3 = C.White,
+    BorderSizePixel = 0,
+    ZIndex = 6
+}, TransKnob)
+Round(TransKnobCore, 2)
+
+TRANS_MIN = 0
+TRANS_MAX = 80
+
+function updateTransparency(value)
+    CurrentTransparency = value
+    TransValueLabel.Text = tostring(value)
+    if Main then
+        Main.BackgroundTransparency = 0.04 + (value / 100) * 0.76
+    end
+end
+
+function transFromPosition(xPosition)
+    local trackWidth = TransTrack.AbsoluteSize.X
+    if trackWidth <= 0 then return end
+    local relative = math.clamp(xPosition / trackWidth, 0, 1)
+    local value = math.floor(TRANS_MIN + (TRANS_MAX - TRANS_MIN) * relative + 0.5)
+    updateTransparency(value)
+    local knobPos = relative * trackWidth
+    TransKnob.Position = UDim2.new(0, knobPos - 9, 0.5, -9)
+    TransKnobGlow.Position = UDim2.new(0, knobPos - 13, 0.5, -13)
+    TransFill.Size = UDim2.new(relative, 0, 1, 0)
+end
+
+transDragging = false
+TransTrack.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        transDragging = true
+        transFromPosition(input.Position.X - TransTrack.AbsolutePosition.X)
+        Animate(TransKnobGlow, { BackgroundTransparency = 0.6 }, 0.15)
+    end
+end)
+UIS.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        transDragging = false
+        Animate(TransKnobGlow, { BackgroundTransparency = 0.75 }, 0.2)
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if transDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        transFromPosition(input.Position.X - TransTrack.AbsolutePosition.X)
+    end
+end)
+task.defer(function()
+    task.wait(0.2)
+    local trackWidth = TransTrack.AbsoluteSize.X
+    if trackWidth > 0 then
+        local relative = (0 - TRANS_MIN) / (TRANS_MAX - TRANS_MIN)
+        local knobPos = relative * trackWidth
+        TransKnob.Position = UDim2.new(0, knobPos - 9, 0.5, -9)
+        TransKnobGlow.Position = UDim2.new(0, knobPos - 13, 0.5, -13)
+        TransFill.Size = UDim2.new(relative, 0, 1, 0)
+    end
+    updateTransparency(0)
+end)
+
+-- 4. GUI SIZE BUTTONS
+SizeCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 88),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, SettingsPage)
+
+Round(SizeCard, 12)
+Outline(SizeCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 20),
+    Position = UDim2.fromOffset(12, 6),
+    BackgroundTransparency = 1,
+    Text = "GUI SIZE",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, SizeCard)
+
+SizeButtonHolder = Create("Frame", {
+    Size = UDim2.new(1, -20, 0, 40),
+    Position = UDim2.new(0, 10, 0, 34),
+    BackgroundTransparency = 1
+}, SizeCard)
+
+Create("UIListLayout", {
+    FillDirection = Enum.FillDirection.Horizontal,
+    Padding = UDim.new(0, 6),
+    VerticalAlignment = Enum.VerticalAlignment.Center
+}, SizeButtonHolder)
+
+sizePresets = {
+    {label = "SMALL",  value = 0.75},
+    {label = "NORMAL", value = 1.0},
+    {label = "BIG",    value = 1.25}
+}
+
+sizeButtons = {}
+sizeActive = 2
+
+function updateSizeVisuals()
+    for i, btn in ipairs(sizeButtons) do
+        local selected = (i == sizeActive)
+        Animate(btn, { BackgroundColor3 = selected and C.Blue or C.Background }, 0.15)
+        local stroke = btn:FindFirstChildOfClass("UIStroke")
+        if stroke then Animate(stroke, { Transparency = selected and 0.15 or 0.6 }, 0.15) end
+        local lbl = btn:FindFirstChildOfClass("TextLabel")
+        if lbl then lbl.TextColor3 = selected and C.White or C.Gray end
+    end
+end
+
+for i, preset in ipairs(sizePresets) do
+    local btn = Create("TextButton", {
+        Size = UDim2.new(1/3, -4, 1, 0),
+        BackgroundColor3 = C.Background,
+        Text = "",
+        BorderSizePixel = 0,
+        AutoButtonColor = false
+    }, SizeButtonHolder)
+    Round(btn, 8)
+    Outline(btn, C.Cyan, 1, 0.6)
+    Create("TextLabel", {
+        Size = UDim2.new(1, 0, 1, 0),
+        BackgroundTransparency = 1,
+        Text = preset.label,
+        TextColor3 = C.White,
+        Font = Enum.Font.GothamBold,
+        TextSize = 10
+    }, btn)
+    btn.MouseButton1Click:Connect(function()
+        sizeActive = i
+        updateSizeVisuals()
+        GUIScale.Scale = preset.value
+    end)
+    table.insert(sizeButtons, btn)
+end
+updateSizeVisuals()
+
+-- 5. NOTIFICATIONS TOGGLE
+NotifCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 60),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, SettingsPage)
+
+Round(NotifCard, 12)
+Outline(NotifCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -80, 1, 0),
+    Position = UDim2.fromOffset(12, 0),
+    BackgroundTransparency = 1,
+    Text = "NOTIFICATIONS",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, NotifCard)
+
+NotifBtn = Create("TextButton", {
+    Size = UDim2.fromOffset(42, 22),
+    Position = UDim2.new(1, -53, 0.5, -11),
+    BackgroundColor3 = C.Blue,
+    Text = "",
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, NotifCard)
+
+Round(NotifBtn, 12)
+Outline(NotifBtn, C.Cyan, 1, 0.45)
+
+NotifKnob = Create("Frame", {
+    Size = UDim2.fromOffset(16, 16),
+    Position = UDim2.new(1, -19, 0.5, -8),
+    BackgroundColor3 = C.White,
+    BorderSizePixel = 0
+}, NotifBtn)
+Round(NotifKnob, 20)
+
+NotifBtn.MouseButton1Click:Connect(function()
+    NotificationsEnabled = not NotificationsEnabled
+    Animate(NotifBtn, { BackgroundColor3 = NotificationsEnabled and C.Blue or C.Background })
+    Animate(NotifKnob, { Position = NotificationsEnabled and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3) })
+end)
+
+-- 6. ANTI-AFK TOGGLE
+AntiAFKCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 60),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, SettingsPage)
+
+Round(AntiAFKCard, 12)
+Outline(AntiAFKCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -80, 1, 0),
+    Position = UDim2.fromOffset(12, 0),
+    BackgroundTransparency = 1,
+    Text = "ANTI-AFK",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, AntiAFKCard)
+
+AntiAFKBtn = Create("TextButton", {
+    Size = UDim2.fromOffset(42, 22),
+    Position = UDim2.new(1, -53, 0.5, -11),
+    BackgroundColor3 = C.Blue,
+    Text = "",
+    BorderSizePixel = 0,
+    AutoButtonColor = false
+}, AntiAFKCard)
+
+Round(AntiAFKBtn, 12)
+Outline(AntiAFKBtn, C.Cyan, 1, 0.45)
+
+AntiAFKKnob = Create("Frame", {
+    Size = UDim2.fromOffset(16, 16),
+    Position = UDim2.new(1, -19, 0.5, -8),
+    BackgroundColor3 = C.White,
+    BorderSizePixel = 0
+}, AntiAFKBtn)
+Round(AntiAFKKnob, 20)
+
+AntiAFKActive = true
+AntiAFKConnection = nil
+
+function StartAntiAFK()
+    if AntiAFKConnection then return end
+    AntiAFKConnection = RunService.Heartbeat:Connect(function()
+        local VirtualUser = game:GetService("VirtualUser")
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+    end)
+end
+
+function StopAntiAFK()
+    if AntiAFKConnection then
+        AntiAFKConnection:Disconnect()
+        AntiAFKConnection = nil
+    end
+end
+
+AntiAFKBtn.MouseButton1Click:Connect(function()
+    AntiAFKActive = not AntiAFKActive
+    Animate(AntiAFKBtn, { BackgroundColor3 = AntiAFKActive and C.Blue or C.Background })
+    Animate(AntiAFKKnob, { Position = AntiAFKActive and UDim2.new(1, -19, 0.5, -8) or UDim2.fromOffset(3, 3) })
+    if AntiAFKActive then
+        StartAntiAFK()
+    else
+        StopAntiAFK()
+    end
+end)
+
+StartAntiAFK()
+
+print("PERFECT SETTINGS READY")
+--========================================================
+-- PART 16: ABOUT PAGE & PLAYER STATUS (3A)
+--========================================================
+
+AboutPage = Pages["About"] or CreatePage("About")
+
+for _, child in ipairs(AboutPage:GetChildren()) do
+    if not child:IsA("UIPadding") and not child:IsA("UIListLayout") then
+        child:Destroy()
+    end
+end
+
+AddText(AboutPage, "ABOUT PERFECT", 32, C.Cyan, Enum.Font.GothamBold)
+AddText(AboutPage, "Multi-theme edition — crafted with care", 22, C.Gray)
+
+VersionCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 110),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, AboutPage)
+
+Round(VersionCard, 12)
+Outline(VersionCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 22),
+    Position = UDim2.fromOffset(12, 8),
+    BackgroundTransparency = 1,
+    Text = "VERSION",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, VersionCard)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 28),
+    Position = UDim2.fromOffset(12, 34),
+    BackgroundTransparency = 1,
+    Text = "PERFECT v1.2.0",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 18,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, VersionCard)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 18),
+    Position = UDim2.fromOffset(12, 64),
+    BackgroundTransparency = 1,
+    Text = "Multi-Theme Edition · October 18, 2026",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, VersionCard)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 16),
+    Position = UDim2.fromOffset(12, 84),
+    BackgroundTransparency = 1,
+    Text = "6 themes · aimbot · utilities · player monitoring",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 9,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, VersionCard)
+
+CreditsCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 88),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, AboutPage)
+
+Round(CreditsCard, 12)
+Outline(CreditsCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 22),
+    Position = UDim2.fromOffset(12, 8),
+    BackgroundTransparency = 1,
+    Text = "CREDITS",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, CreditsCard)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 20),
+    Position = UDim2.fromOffset(12, 34),
+    BackgroundTransparency = 1,
+    Text = "Developer:  J7ñã63d",
+    TextColor3 = C.White,
+    Font = Enum.Font.GothamBold,
+    TextSize = 11,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, CreditsCard)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 20),
+    Position = UDim2.fromOffset(12, 58),
+    BackgroundTransparency = 1,
+    Text = "Interface design:  Neon Aurora Edition",
+    TextColor3 = C.Gray,
+    Font = Enum.Font.Gotham,
+    TextSize = 10,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, CreditsCard)
+
+ChangelogCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 170),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, AboutPage)
+
+Round(ChangelogCard, 12)
+Outline(ChangelogCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 0, 22),
+    Position = UDim2.fromOffset(12, 8),
+    BackgroundTransparency = 1,
+    Text = "CHANGELOG",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Left
+}, ChangelogCard)
+
+function ChangelogRow(parent, yPos, version, description, color)
+    Create("TextLabel", {
+        Size = UDim2.new(0, 70, 0, 18),
+        Position = UDim2.fromOffset(12, yPos),
+        BackgroundTransparency = 1,
+        Text = version,
+        TextColor3 = color or C.Cyan,
+        Font = Enum.Font.GothamBold,
+        TextSize = 10,
+        TextXAlignment = Enum.TextXAlignment.Left
+    }, parent)
+
+    Create("TextLabel", {
+        Size = UDim2.new(1, -94, 0, 18),
+        Position = UDim2.fromOffset(86, yPos),
+        BackgroundTransparency = 1,
+        Text = description,
+        TextColor3 = C.Gray,
+        Font = Enum.Font.Gotham,
+        TextSize = 9,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        TextWrapped = true
+    }, parent)
+end
+
+ChangelogRow(ChangelogCard, 34, "v1.2.0", "Fling system, premium selectors, magic crosshair, anti-AFK", C.Cyan)
+ChangelogRow(ChangelogCard, 66, "v1.1.0", "Multi-theme system, utilities, settings, transparency", C.Cyan)
+ChangelogRow(ChangelogCard, 98, "v1.0.0", "Initial release — core GUI framework", C.Gray)
+
+FooterCard = Create("Frame", {
+    Size = UDim2.new(1, 0, 0, 56),
+    BackgroundColor3 = C.Card,
+    BackgroundTransparency = 0.06,
+    BorderSizePixel = 0
+}, AboutPage)
+
+Round(FooterCard, 12)
+Outline(FooterCard, C.Cyan, 1, 0.6)
+
+Create("TextLabel", {
+    Size = UDim2.new(1, -20, 1, 0),
+    Position = UDim2.fromOffset(12, 0),
+    BackgroundTransparency = 1,
+    Text = "Thank you for using PERFECT ✦",
+    TextColor3 = C.Cyan,
+    Font = Enum.Font.GothamBold,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Center
+}, FooterCard)
+
+--========================================================
+-- CHUNK 3A: PLAYER STATUS DASHBOARD
+--========================================================
+
+StatusPage = Pages["Player Status"] or CreatePage("Player Status")
+
+function StatusLabel(parent, text, size, color, font)
+    local L = Label(
+        parent,
+        text,
+        size or 12,
+        color or C.White,
+        font or Enum.Font.Gotham
+    )
+    L.TextXAlignment = Enum.TextXAlignment.Left
+    L.TextYAlignment = Enum.TextYAlignment.Center
+    return L
+end
+
+function StatusCard(parent, height)
+    local Card = MakeCard(parent, height or 90)
+    Create("UIGradient", {
+        Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, C.Card),
+            ColorSequenceKeypoint.new(0.55, C.Content),
+            ColorSequenceKeypoint.new(1, C.Selected)
+        }),
+        Rotation = 18,
+        Parent = Card
+    })
+    return Card
+end
+
+StatusHeader = AddText(
+    StatusPage,
+    "PLAYER STATUS",
+    30,
+    C.Cyan,
+    Enum.Font.GothamBold
+)
+
+StatusSubtitle = AddText(
+    StatusPage,
+    "LIVE PLAYER MONITORING // NEURAL TELEMETRY",
+    25,
+    C.Gray,
+    Enum.Font.Gotham
+)
+
+LiveCard = StatusCard(StatusPage, 42)
+
+LiveDot = Create("Frame", {
+    Size = UDim2.new(0, 10, 0, 10),
+    Position = UDim2.new(0, 14, 0.5, -5),
+    BackgroundColor3 = C.Cyan,
+    BorderSizePixel = 0,
+    Parent = LiveCard
+})
+
+Round(LiveDot, 5)
+
+LiveText = StatusLabel(
+    LiveCard,
+    "LIVE MONITORING",
+    11,
+    C.Cyan,
+    Enum.Font.GothamBold
+)
+LiveText.Position = UDim2.new(0, 31, 0, 0)
+LiveText.Size = UDim2.new(0.55, 0, 1, 0)
+
+LiveState = StatusLabel(
+    LiveCard,
+    "ONLINE",
+    10,
+    C.Green,
+    Enum.Font.GothamBold
+)
+LiveState.Position = UDim2.new(0.65, 0, 0, 0)
+LiveState.Size = UDim2.new(0.3, 0, 1, 0)
+LiveState.TextXAlignment = Enum.TextXAlignment.Right
+
+AvatarCard = StatusCard(StatusPage, 178)
+
+AvatarTitle = StatusLabel(
+    AvatarCard,
+    "AVATAR PROFILE",
+    13,
+    C.Cyan,
+    Enum.Font.GothamBold
+)
+
+AvatarTitle.Position = UDim2.new(0, 14, 0, 9)
+AvatarTitle.Size = UDim2.new(1, -28, 0, 22)
+
+AvatarViewport = Create("ViewportFrame", {
+    Size = UDim2.new(0, 104, 0, 126),
+    Position = UDim2.new(0, 14, 0, 39),
+    BackgroundColor3 = C.Content,
+    BackgroundTransparency = 0.1,
+    BorderSizePixel = 0,
+    Parent = AvatarCard
+})
+
+Round(AvatarViewport, 12)
+Outline(AvatarViewport, C.Cyan, 1, 0.45)
+
+AvatarWorld = Instance.new("WorldModel")
+AvatarWorld.Parent = AvatarViewport
+
+AvatarCamera = Instance.new("Camera")
+AvatarCamera.Parent = AvatarViewport
+AvatarViewport.CurrentCamera = AvatarCamera
+
+UsernameLabel = StatusLabel(
+    AvatarCard,
+    "@" .. Player.Name,
+    15,
+    C.White,
+    Enum.Font.GothamBold
+)
+UsernameLabel.Position = UDim2.new(0, 130, 0, 42)
+UsernameLabel.Size = UDim2.new(1, -144, 0, 25)
+
+DisplayLabel = StatusLabel(
+    AvatarCard,
+    Player.DisplayName,
+    11,
+    C.Gray,
+    Enum.Font.Gotham
+)
+DisplayLabel.Position = UDim2.new(0, 130, 0, 67)
+DisplayLabel.Size = UDim2.new(1, -144, 0, 22)
+
+UserIdLabel = StatusLabel(
+    AvatarCard,
+    "USER ID: " .. tostring(Player.UserId),
+    9,
+    C.Cyan,
+    Enum.Font.Gotham
+)
+UserIdLabel.Position = UDim2.new(0, 130, 0, 91)
+UserIdLabel.Size = UDim2.new(1, -144, 0, 18)
+
+StateLabel = StatusLabel(
+    AvatarCard,
+    "STATE: LOADING",
+    10,
+    C.Green,
+    Enum.Font.GothamBold
+)
+StateLabel.Position = UDim2.new(0, 130, 0, 114)
+StateLabel.Size = UDim2.new(1, -144, 0, 20)
+
+HealthText = StatusLabel(
+    AvatarCard,
+    "HEALTH: -- / --",
+    10,
+    C.White,
+    Enum.Font.GothamBold
+)
+HealthText.Position = UDim2.new(0, 130, 0, 138)
+HealthText.Size = UDim2.new(1, -144, 0, 20)
+
+AvatarModel = nil
+AvatarAngle = 0
+AvatarDragging = false
+AvatarDragStart = nil
+AvatarBuildId = 0
+
+function CleanAvatarModel(Model)
+    if not Model then return end
+    for _, Item in ipairs(Model:GetDescendants()) do
+        if Item:IsA("Script") or Item:IsA("LocalScript") or Item:IsA("ModuleScript") then
+            Item:Destroy()
+        elseif Item:IsA("Tool") then
+            Item:Destroy()
+        elseif Item:IsA("BasePart") then
+            Item.Anchored = true
+            Item.CanCollide = false
+            Item.CanTouch = false
+            Item.CanQuery = false
+            Item.LocalTransparencyModifier = 0
+            if Item.Name == "HumanoidRootPart" then
+                Item.Transparency = 1
+            end
+        end
+    end
+    Model.Parent = AvatarWorld
+    local Root = Model:FindFirstChild("HumanoidRootPart")
+    if Root and Root:IsA("BasePart") then
+        Model.PrimaryPart = Root
+    end
+end
+
+function PositionAvatar()
+    if not AvatarModel then return end
+    local BoundingCFrame, BoxSize = AvatarModel:GetBoundingBox()
+    local Height = math.max(BoxSize.Y, 2)
+    AvatarModel:PivotTo(CFrame.new(0, 0, 0) * CFrame.Angles(0, AvatarAngle, 0))
+    AvatarCamera.FieldOfView = 42
+    local UpdatedCFrame, UpdatedSize = AvatarModel:GetBoundingBox()
+    local CenterY = UpdatedCFrame.Position.Y
+    local ActualHeight = math.max(UpdatedSize.Y, Height)
+    local HalfHeight = ActualHeight * 0.5
+    local FOVRadians = math.rad(AvatarCamera.FieldOfView)
+    local CameraDistance = HalfHeight / math.tan(FOVRadians * 0.5)
+    CameraDistance *= 1.18
+    CameraDistance = math.max(CameraDistance, 5)
+    AvatarCamera.CFrame = CFrame.lookAt(Vector3.new(0, CenterY, -CameraDistance), Vector3.new(0, CenterY, 0))
+end
+
+function BuildAvatarPreview()
+    AvatarBuildId += 1
+    local ThisBuild = AvatarBuildId
+    if AvatarModel then
+        AvatarModel:Destroy()
+        AvatarModel = nil
+    end
+    task.spawn(function()
+        local Character = Player.Character
+        if not Character then
+            Character = Player.CharacterAdded:Wait()
+        end
+        if not Character then return end
+        if ThisBuild ~= AvatarBuildId then return end
+        local Model = Instance.new("Model")
+        Model.Name = "AvatarPreview"
+        for _, part in ipairs(Character:GetDescendants()) do
+            if part:IsA("BasePart") or part:IsA("Decal") or part:IsA("Texture") or part:IsA("Accessory") or part:IsA("Shirt") or part:IsA("Pants") or part:IsA("BodyColors") or part:IsA("CharacterMesh") then
+                local ok, cloned = pcall(function() return part:Clone() end)
+                if ok and cloned then
+                    cloned.Parent = Model
+                end
+            end
+        end
+        if ThisBuild ~= AvatarBuildId then Model:Destroy() return end
+        CleanAvatarModel(Model)
+        if ThisBuild ~= AvatarBuildId then Model:Destroy() return end
+        local HasRenderablePart = false
+        for _, Item in ipairs(Model:GetDescendants()) do
+            if Item:IsA("BasePart") and Item.Name ~= "HumanoidRootPart" then
+                HasRenderablePart = true
+                break
+            end
+        end
+        if not HasRenderablePart then
+            Model:Destroy()
+            StateLabel.Text = "STATE: NO BODY PARTS"
+            return
+        end
+        AvatarModel = Model
+        AvatarAngle = 0
+        PositionAvatar()
+        StateLabel.Text = "STATE: ONLINE"
+    end)
+end
+
+BuildAvatarPreview()
+--========================================================
+-- PART 17: PLAYER STATUS (INVENTORY & NETWORK)
+--========================================================
+
+Player.CharacterAdded:Connect(function()
+    task.wait(1)
+    BuildAvatarPreview()
+end)
+
+AvatarViewport.InputBegan:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        if AvatarModel then
+            AvatarDragging = true
+            AvatarDragStart = Input.Position
+        end
+    end
+end)
+
+UIS.InputChanged:Connect(function(Input)
+    if not AvatarDragging then return end
+    if not AvatarModel then return end
+    if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
+        local Delta = Input.Position - AvatarDragStart
+        AvatarDragStart = Input.Position
+        AvatarAngle += Delta.X * 0.012
+        AvatarModel:PivotTo(CFrame.new(0, 0, 0) * CFrame.Angles(0, AvatarAngle, 0))
+    end
+end)
+
+UIS.InputEnded:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        AvatarDragging = false
+    end
+end)
+
+MonitorCard = StatusCard(StatusPage, 154)
+
+MonitorTitle = StatusLabel(
+    MonitorCard,
+    "CHARACTER MONITOR",
+    13,
+    C.Cyan,
+    Enum.Font.GothamBold
+)
+MonitorTitle.Position = UDim2.new(0, 14, 0, 9)
+MonitorTitle.Size = UDim2.new(1, -28, 0, 22)
+
+HealthRing = Create("Frame", {
+    Size = UDim2.new(0, 78, 0, 78),
+    Position = UDim2.new(0, 16, 0, 43),
+    BackgroundColor3 = C.Content,
+    BackgroundTransparency = 0.2,
+    BorderSizePixel = 0,
+    Parent = MonitorCard
+})
+
+Round(HealthRing, 39)
+Outline(HealthRing, C.Cyan, 3, 0.25)
+
+HealthRingInner = Create("Frame", {
+    Size = UDim2.new(1, -12, 1, -12),
+    Position = UDim2.new(0, 6, 0, 6),
+    BackgroundColor3 = C.Background,
+    BorderSizePixel = 0,
+    Parent = HealthRing
+})
+
+Round(HealthRingInner, 33)
+
+HealthPercent = StatusLabel(
+    HealthRingInner,
+    "100%",
+    14,
+    C.Cyan,
+    Enum.Font.GothamBold
+)
+HealthPercent.Size = UDim2.new(1, 0, 1, 0)
+HealthPercent.TextXAlignment = Enum.TextXAlignment.Center
+
+PositionTitle = StatusLabel(
+    MonitorCard,
+    "POSITION",
+    9,
+    C.Gray,
+    Enum.Font.GothamBold
+)
+PositionTitle.Position = UDim2.new(0, 110, 0, 43)
+PositionTitle.Size = UDim2.new(1, -124, 0, 18)
+
+PositionLabel = StatusLabel(
+    MonitorCard,
+    "X: --   Y: --   Z: --",
+    10,
+    C.White,
+    Enum.Font.Gotham
+)
+PositionLabel.Position = UDim2.new(0, 110, 0, 62)
+PositionLabel.Size = UDim2.new(1, -124, 0, 35)
+PositionLabel.TextWrapped = true
+
+AliveLabel = StatusLabel(
+    MonitorCard,
+    "STATUS: --",
+    10,
+    C.Green,
+    Enum.Font.GothamBold
+)
+AliveLabel.Position = UDim2.new(0, 110, 0, 101)
+AliveLabel.Size = UDim2.new(1, -124, 0, 20)
+
+RespawnLabel = StatusLabel(
+    MonitorCard,
+    "RESPAWNS: 0",
+    10,
+    C.Gray,
+    Enum.Font.GothamBold
+)
+RespawnLabel.Position = UDim2.new(0, 110, 0, 122)
+RespawnLabel.Size = UDim2.new(1, -124, 0, 20)
+
+InventoryCard = StatusCard(StatusPage, 190)
+
+InventoryTitle = StatusLabel(
+    InventoryCard,
+    "INVENTORY",
+    13,
+    C.Cyan,
+    Enum.Font.GothamBold
+)
+InventoryTitle.Position = UDim2.new(0, 14, 0, 9)
+InventoryTitle.Size = UDim2.new(0.45, 0, 0, 22)
+
+InventoryCount = StatusLabel(
+    InventoryCard,
+    "0 ITEMS",
+    9,
+    C.Gray,
+    Enum.Font.GothamBold
+)
+InventoryCount.Position = UDim2.new(0.65, 0, 0, 9)
+InventoryCount.Size = UDim2.new(0.3, 0, 0, 22)
+InventoryCount.TextXAlignment = Enum.TextXAlignment.Right
+
+InventorySearch = Create("TextBox", {
+    Size = UDim2.new(1, -28, 0, 30),
+    Position = UDim2.new(0, 14, 0, 36),
+    BackgroundColor3 = C.Content,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0,
+    Text = "",
+    PlaceholderText = "Search inventory...",
+    PlaceholderColor3 = C.Gray,
+    TextColor3 = C.White,
+    TextSize = 10,
+    Font = Enum.Font.Gotham,
+    ClearTextOnFocus = false,
+    Parent = InventoryCard
+})
+
+Round(InventorySearch, 8)
+Outline(InventorySearch, C.Blue, 1, 0.45)
+
+InventoryList = Create("ScrollingFrame", {
+    Size = UDim2.new(1, -28, 0, 108),
+    Position = UDim2.new(0, 14, 0, 73),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    ScrollBarThickness = 2,
+    ScrollBarImageColor3 = C.Cyan,
+    CanvasSize = UDim2.new(0, 0, 0, 0),
+    AutomaticCanvasSize = Enum.AutomaticSize.Y,
+    ScrollingDirection = Enum.ScrollingDirection.Y,
+    Parent = InventoryCard
+})
+
+Create("UIListLayout", {
+    Padding = UDim.new(0, 5),
+    SortOrder = Enum.SortOrder.LayoutOrder,
+    Parent = InventoryList
+})
+
+InventoryRows = {}
+
+function ClearInventoryRows()
+    for _, Row in ipairs(InventoryRows) do
+        if Row and Row.Parent then
+            Row:Destroy()
+        end
+    end
+    table.clear(InventoryRows)
+end
+
+function AddInventoryItem(Tool, Equipped)
+    local Row = Create("Frame", {
+        Size = UDim2.new(1, 0, 0, 28),
+        BackgroundColor3 = Equipped and C.Selected or C.Content,
+        BackgroundTransparency = 0.2,
+        BorderSizePixel = 0,
+        Parent = InventoryList
+    })
+
+    Round(Row, 7)
+
+    local Name = StatusLabel(
+        Row,
+        Tool.Name,
+        9,
+        C.White,
+        Enum.Font.GothamSemibold
+    )
+    Name.Position = UDim2.new(0, 9, 0, 0)
+    Name.Size = UDim2.new(0.68, 0, 1, 0)
+
+    local State = StatusLabel(
+        Row,
+        Equipped and "EQUIPPED" or "STORED",
+        8,
+        Equipped and C.Cyan or C.Gray,
+        Enum.Font.GothamBold
+    )
+    State.Position = UDim2.new(0.68, 0, 0, 0)
+    State.Size = UDim2.new(0.29, -4, 1, 0)
+    State.TextXAlignment = Enum.TextXAlignment.Right
+
+    table.insert(InventoryRows, Row)
+end
+
+function UpdateInventory()
+    ClearInventoryRows()
+    local Character = Player.Character
+    local Backpack = Player:FindFirstChildOfClass("Backpack")
+    local Items = {}
+
+    if Backpack then
+        for _, Item in ipairs(Backpack:GetChildren()) do
+            if Item:IsA("Tool") then
+                table.insert(Items, { Tool = Item, Equipped = false })
+            end
+        end
+    end
+
+    if Character then
+        for _, Item in ipairs(Character:GetChildren()) do
+            if Item:IsA("Tool") then
+                table.insert(Items, { Tool = Item, Equipped = true })
+            end
+        end
+    end
+
+    InventoryCount.Text = tostring(#Items) .. " ITEMS"
+    local Query = string.lower(InventorySearch.Text)
+
+    for _, Info in ipairs(Items) do
+        if Query == "" or string.find(string.lower(Info.Tool.Name), Query, 1, true) then
+            AddInventoryItem(Info.Tool, Info.Equipped)
+        end
+    end
+end
+
+InventorySearch:GetPropertyChangedSignal("Text"):Connect(UpdateInventory)
+UpdateInventory()
+
+-- RESET CHARACTER
+ResetCard = StatusCard(StatusPage, 96)
+ResetCard.LayoutOrder = -1000
+
+ResetTitle = StatusLabel(ResetCard, "CHARACTER CONTROL", 13, C.Cyan, Enum.Font.GothamBold)
+ResetTitle.Position = UDim2.new(0, 14, 0, 9)
+ResetTitle.Size = UDim2.new(1, -28, 0, 20)
+
+ResetSubTitle = StatusLabel(ResetCard, "FORCE CHARACTER RESPAWN", 8, C.Gray, Enum.Font.GothamBold)
+ResetSubTitle.Position = UDim2.new(0, 14, 0, 29)
+ResetSubTitle.Size = UDim2.new(0.55, 0, 0, 16)
+
+ResetButton = Create("TextButton", {
+    Size = UDim2.new(0.38, 0, 0, 42),
+    Position = UDim2.new(0.61, 0, 0, 8),
+    BackgroundColor3 = C.Blue,
+    BackgroundTransparency = 0.02,
+    BorderSizePixel = 0,
+    Text = "",
+    AutoButtonColor = false,
+    ZIndex = 5,
+    Parent = ResetCard
+})
+
+Round(ResetButton, 11)
+MakeGradient(ResetButton, Color3.fromRGB(25, 115, 235), Color3.fromRGB(20, 65, 155), 0)
+Outline(ResetButton, C.Cyan, 1.5, 0.2)
+
+ResetText = StatusLabel(ResetButton, "RESET", 10, C.White, Enum.Font.GothamBold)
+ResetText.Position = UDim2.new(0, 37, 0, 4)
+ResetText.Size = UDim2.new(1, -43, 0, 18)
+ResetText.ZIndex = 7
+
+ResetStatus = StatusLabel(ResetButton, "CHARACTER", 7, C.Cyan, Enum.Font.GothamBold)
+ResetStatus.Position = UDim2.new(0, 37, 0, 21)
+ResetStatus.Size = UDim2.new(1, -43, 0, 13)
+ResetStatus.ZIndex = 7
+
+ResetButton.MouseButton1Click:Connect(function()
+    local Character = Player.Character
+    if Character then
+        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+        if Humanoid then
+            Humanoid.Health = 0
+        else
+            Character:BreakJoints()
+        end
+    end
+end)
+
+-- NETWORK / PERFORMANCE
+NetworkCard = StatusCard(StatusPage, 174)
+
+NetworkTitle = StatusLabel(NetworkCard, "NETWORK / PERFORMANCE", 13, C.Cyan, Enum.Font.GothamBold)
+NetworkTitle.Position = UDim2.new(0, 14, 0, 9)
+NetworkTitle.Size = UDim2.new(1, -28, 0, 22)
+
+PingLabel = StatusLabel(NetworkCard, "PING: -- ms", 10, C.White, Enum.Font.GothamBold)
+PingLabel.Position = UDim2.new(0, 14, 0, 40)
+PingLabel.Size = UDim2.new(0.45, 0, 0, 20)
+
+FPSLabel = StatusLabel(NetworkCard, "FPS: --", 10, C.White, Enum.Font.GothamBold)
+FPSLabel.Position = UDim2.new(0.55, 0, 0, 40)
+FPSLabel.Size = UDim2.new(0.4, 0, 0, 20)
+FPSLabel.TextXAlignment = Enum.TextXAlignment.Right
+
+PingGraph = Create("Frame", { Size = UDim2.new(1, -28, 0, 43), Position = UDim2.new(0, 14, 0, 68), BackgroundColor3 = C.Background, BackgroundTransparency = 0.2, BorderSizePixel = 0, Parent = NetworkCard })
+Round(PingGraph, 8)
+
+FPSGraph = Create("Frame", { Size = UDim2.new(1, -28, 0, 43), Position = UDim2.new(0, 14, 0, 118), BackgroundColor3 = C.Background, BackgroundTransparency = 0.2, BorderSizePixel = 0, Parent = NetworkCard })
+Round(FPSGraph, 8)
+
+PingPoints = {}
+FPSPoints = {}
+
+function AddGraphPoint(Graph, Points, Value, Maximum)
+    local Point = Create("Frame", { Size = UDim2.fromOffset(4, 4), BackgroundColor3 = C.Cyan, BorderSizePixel = 0, Parent = Graph })
+    Round(Point, 4)
+    local Alpha = math.clamp(Value / Maximum, 0, 1)
+    Point.Position = UDim2.new(1, 0, 1 - Alpha, -2)
+    table.insert(Points, Point)
+    if #Points > 28 then
+        local Old = table.remove(Points, 1)
+        if Old then Old:Destroy() end
+    end
+    local Width = Graph.AbsoluteSize.X
+    if Width > 0 then
+        for Index, Existing in ipairs(Points) do
+            local X = ((Index - 1) / 27) * Width
+            Existing.Position = UDim2.new(0, X, Existing.Position.Y.Scale, Existing.Position.Y.Offset)
+        end
+    end
+end
+--========================================================
+-- PART 18: PLAYER STATUS (SESSION & NOTIFICATIONS)
+--========================================================
+
+StatsCard = StatusCard(StatusPage, 116)
+
+StatsTitle = StatusLabel(
+    StatsCard,
+    "SESSION STATISTICS",
+    13,
+    C.Cyan,
+    Enum.Font.GothamBold
+)
+StatsTitle.Position = UDim2.new(0, 14, 0, 9)
+StatsTitle.Size = UDim2.new(1, -28, 0, 22)
+
+SessionStart = os.clock()
+RespawnCount = 0
+HasInitialCharacter = Player.Character ~= nil
+LastPosition = nil
+LastHealth = nil
+LastPingWarning = false
+
+SessionLabel = StatusLabel(StatsCard, "SESSION: 00:00:00", 10, C.White, Enum.Font.GothamBold)
+SessionLabel.Position = UDim2.new(0, 14, 0, 40)
+SessionLabel.Size = UDim2.new(0.48, 0, 0, 20)
+
+RespawnStatsLabel = StatusLabel(StatsCard, "RESPAWNS: 0", 10, C.Gray, Enum.Font.GothamBold)
+RespawnStatsLabel.Position = UDim2.new(0.52, 0, 0, 40)
+RespawnStatsLabel.Size = UDim2.new(0.44, 0, 0, 20)
+RespawnStatsLabel.TextXAlignment = Enum.TextXAlignment.Right
+
+MonitorModeLabel = StatusLabel(StatsCard, "MONITOR MODE: ACTIVE", 9, C.Green, Enum.Font.GothamBold)
+MonitorModeLabel.Position = UDim2.new(0, 14, 0, 68)
+MonitorModeLabel.Size = UDim2.new(1, -28, 0, 20)
+
+CharacterConnection = nil
+
+function ConnectCharacter(Character)
+    if CharacterConnection then
+        CharacterConnection:Disconnect()
+        CharacterConnection = nil
+    end
+
+    LastPosition = nil
+    LastHealth = nil
+
+    local Humanoid = Character:WaitForChild("Humanoid", 10)
+    local Root = Character:WaitForChild("HumanoidRootPart", 10)
+
+    BuildAvatarPreview()
+    UpdateInventory()
+
+    if not Humanoid then return end
+
+    CharacterConnection = Humanoid.HealthChanged:Connect(function(Health)
+        LastHealth = Health
+        local MaxHealth = Humanoid.MaxHealth
+        if MaxHealth > 0 then
+            local Percent = math.clamp(Health / MaxHealth, 0, 1)
+            HealthPercent.Text = string.format("%.0f%%", Percent * 100)
+            HealthText.Text = string.format("HEALTH: %.0f / %.0f", Health, MaxHealth)
+            StateLabel.Text = Health > 0 and "STATE: ALIVE" or "STATE: DEAD"
+            AliveLabel.Text = Health > 0 and "STATUS: ALIVE" or "STATUS: DEAD"
+        end
+    end)
+
+    if Root then LastPosition = Root.Position end
+end
+
+Player.CharacterAdded:Connect(function(Character)
+    if HasInitialCharacter then
+        RespawnCount += 1
+        RespawnLabel.Text = "RESPAWNS: " .. tostring(RespawnCount)
+        RespawnStatsLabel.Text = "RESPAWNS: " .. tostring(RespawnCount)
+    else
+        HasInitialCharacter = true
+    end
+    ConnectCharacter(Character)
+end)
+
+if Player.Character then
+    task.spawn(function()
+        ConnectCharacter(Player.Character)
+    end)
+end
+
+--========================================================
+-- GLOBAL NOTIFICATION SYSTEM
+--========================================================
+
+NotificationHolder = Create("Frame", {
+    Name = "GlobalNotifications",
+    Size = UDim2.fromOffset(290, 0),
+    Position = UDim2.new(1, -12, 0, 12),
+    AnchorPoint = Vector2.new(1, 0),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    AutomaticSize = Enum.AutomaticSize.Y,
+    ZIndex = 1000,
+    Parent = GUI
+})
+
+Create("UIListLayout", {
+    FillDirection = Enum.FillDirection.Vertical,
+    HorizontalAlignment = Enum.HorizontalAlignment.Right,
+    VerticalAlignment = Enum.VerticalAlignment.Top,
+    Padding = UDim.new(0, 8),
+    SortOrder = Enum.SortOrder.LayoutOrder,
+    Parent = NotificationHolder
+})
+
+NotificationOrder = 0
+
+function ShowNotification(TitleText, MessageText, AccentColor)
+    if NotificationsEnabled == false then return end
+
+    NotificationOrder += 1
+    local MainAccent = C.Cyan
+    local SecondaryAccent = C.Blue
+    local GlowColor = C.Blue -- FIXED: Now uses theme color
+
+    local Wrapper = Create("Frame", {
+        Name = "NotificationWrapper",
+        Size = UDim2.fromOffset(278, 72),
+        BackgroundTransparency = 1,
+        BorderSizePixel = 0,
+        LayoutOrder = NotificationOrder,
+        ZIndex = 999,
+        Parent = NotificationHolder
+    })
+
+    local Glow = Create("Frame", {
+        Name = "NotificationGlow",
+        Size = UDim2.fromOffset(278, 72),
+        Position = UDim2.fromOffset(0, 4),
+        BackgroundColor3 = GlowColor,
+        BackgroundTransparency = 0.82,
+        BorderSizePixel = 0,
+        ZIndex = 999,
+        Parent = Wrapper
+    })
+
+    Round(Glow, 15)
+
+    local Notification = Create("Frame", {
+        Name = "Notification",
+        Size = UDim2.fromOffset(270, 64),
+        Position = UDim2.fromOffset(4, 4),
+        BackgroundColor3 = C.Background,
+        BackgroundTransparency = 0.04,
+        BorderSizePixel = 0,
+        ZIndex = 1000,
+        Parent = Wrapper
+    })
+
+    Round(Notification, 12)
+    Outline(Notification, MainAccent, 1.5, 0.15)
+
+    MakeGradient(Notification, Color3.fromRGB(18, 72, 145), Color3.fromRGB(7, 20, 50), 18)
+
+    local AccentBar = Create("Frame", {
+        Size = UDim2.fromOffset(3, 42),
+        Position = UDim2.fromOffset(9, 11),
+        BackgroundColor3 = MainAccent,
+        BorderSizePixel = 0,
+        ZIndex = 1002,
+        Parent = Notification
+    })
+
+    Round(AccentBar, 2)
+
+    local Dot = Create("Frame", {
+        Size = UDim2.fromOffset(6, 6),
+        Position = UDim2.fromOffset(20, 11),
+        BackgroundColor3 = MainAccent,
+        BorderSizePixel = 0,
+        ZIndex = 1003,
+        Parent = Notification
+    })
+
+    Round(Dot, 6)
+
+    local Title = StatusLabel(Notification, TitleText, 11, MainAccent, Enum.Font.GothamBold)
+    Title.Position = UDim2.fromOffset(31, 7)
+    Title.Size = UDim2.new(1, -43, 0, 19)
+    Title.ZIndex = 1002
+
+    local Message = StatusLabel(Notification, MessageText, 9, C.Gray, Enum.Font.Gotham)
+    Message.Position = UDim2.fromOffset(21, 29)
+    Message.Size = UDim2.new(1, -31, 0, 22)
+    Message.TextTruncate = Enum.TextTruncate.AtEnd
+    Message.ZIndex = 1002
+
+    local ProgressBack = Create("Frame", {
+        Size = UDim2.new(1, -42, 0, 2),
+        Position = UDim2.new(0, 21, 1, -7),
+        BackgroundColor3 = C.Background,
+        BackgroundTransparency = 0.2,
+        BorderSizePixel = 0,
+        ZIndex = 1002,
+        Parent = Notification
+    })
+
+    Round(ProgressBack, 2)
+
+    local Progress = Create("Frame", {
+        Size = UDim2.new(1, 0, 1, 0),
+        BackgroundColor3 = MainAccent,
+        BorderSizePixel = 0,
+        ZIndex = 1003,
+        Parent = ProgressBack
+    })
+
+    Round(Progress, 2)
+
+    Wrapper.Position = UDim2.new(0, 25, 0, 0)
+
+    Animate(Wrapper, { Position = UDim2.fromOffset(0, 0) }, 0.28)
+
+    task.spawn(function()
+        while Notification.Parent do
+            Animate(Glow, { BackgroundTransparency = 0.74 }, 0.45)
+            task.wait(0.45)
+            if not Notification.Parent then break end
+            Animate(Glow, { BackgroundTransparency = 0.86 }, 0.45)
+            task.wait(0.45)
+        end
+    end)
+
+    local Lifetime = 5.5
+    Animate(Progress, { Size = UDim2.new(0, 0, 1, 0) }, Lifetime)
+
+    task.delay(Lifetime, function()
+        if not Notification or not Notification.Parent then return end
+        Animate(Wrapper, { Position = UDim2.new(0, 25, 0, 0) }, 0.22)
+        Animate(Notification, { BackgroundTransparency = 1 }, 0.22)
+        Animate(Glow, { BackgroundTransparency = 1 }, 0.22)
+        
+        for _, Item in ipairs(Notification:GetDescendants()) do
+            if Item:IsA("TextLabel") then
+                Animate(Item, { TextTransparency = 1 }, 0.2)
+            elseif Item:IsA("UIStroke") then
+                Animate(Item, { Transparency = 1 }, 0.2)
+            elseif Item:IsA("Frame") and Item ~= Notification then
+                Animate(Item, { BackgroundTransparency = 1 }, 0.2)
+            end
+        end
+        
+        task.wait(0.25)
+        if Wrapper then Wrapper:Destroy() end
+    end)
+end
+
+CurrentPing = 0
+CurrentFPS = 60
+PingAlertActive = false
+FPSAlertActive = false
+FPSAccumulatedTime = 0
+FPSFrameCount = 0
+--========================================================
+-- PART 19: TELEMETRY, SIDEBAR, & STARTUP
+--========================================================
+
+FPSRenderConnection = RunService.RenderStepped:Connect(function(DeltaTime)
+    if DeltaTime <= 0 then return end
+    FPSFrameCount += 1
+    FPSAccumulatedTime += DeltaTime
+
+    if FPSAccumulatedTime >= 0.5 then
+        local FPS = FPSFrameCount / FPSAccumulatedTime
+        FPS = math.clamp(FPS, 0, 240)
+        CurrentFPS = FPS
+
+        FPSLabel.Text = string.format("FPS: %.0f", FPS)
+        AddGraphPoint(FPSGraph, FPSPoints, FPS, 120)
+
+        if FPS <= 10 then
+            if not FPSAlertActive then
+                FPSAlertActive = true
+                ShowNotification("LOW FPS", string.format("Performance dropped to %.0f FPS", FPS), C.Violet)
+            end
+        else
+            FPSAlertActive = false
+        end
+
+        FPSFrameCount = 0
+        FPSAccumulatedTime = 0
+    end
+end)
+
+task.spawn(function()
+    while GUI.Parent do
+        task.wait(0.5)
+        local Character = Player.Character
+        local Humanoid = Character and Character:FindFirstChildOfClass("Humanoid")
+        local Root = Character and Character:FindFirstChild("HumanoidRootPart")
+
+        local SessionTime = math.max(0, os.clock() - SessionStart)
+        local Hours = math.floor(SessionTime / 3600)
+        local Minutes = math.floor((SessionTime % 3600) / 60)
+        local Seconds = math.floor(SessionTime % 60)
+
+        SessionLabel.Text = string.format("SESSION: %02d:%02d:%02d", Hours, Minutes, Seconds)
+        RespawnLabel.Text = "RESPAWNS: " .. tostring(RespawnCount)
+        RespawnStatsLabel.Text = "RESPAWNS: " .. tostring(RespawnCount)
+
+        if Root then
+            local Position = Root.Position
+            PositionLabel.Text = string.format("X: %.1f   Y: %.1f   Z: %.1f", Position.X, Position.Y, Position.Z)
+            LastPosition = Position
+        end
+
+        if Humanoid then
+            local Health = Humanoid.Health
+            local MaxHealth = Humanoid.MaxHealth
+            if MaxHealth > 0 then
+                local Percent = math.clamp(Health / MaxHealth, 0, 1)
+                HealthPercent.Text = string.format("%.0f%%", Percent * 100)
+                HealthText.Text = string.format("HEALTH: %.0f / %.0f", Health, MaxHealth)
+
+                if Health > 0 then
+                    AliveLabel.Text = "STATUS: ALIVE"
+                    StateLabel.Text = "STATE: ALIVE"
+                    AliveLabel.TextColor3 = C.Green
+                    StateLabel.TextColor3 = C.Green
+                else
+                    AliveLabel.Text = "STATUS: DEAD"
+                    StateLabel.Text = "STATE: DEAD"
+                    AliveLabel.TextColor3 = C.Red
+                    StateLabel.TextColor3 = C.Red
+                end
+            end
+        end
+
+        local Ping = 0
+        pcall(function() Ping = Player:GetNetworkPing() * 1000 end)
+
+        if Ping > 0 then
+            CurrentPing = Ping
+            PingLabel.Text = string.format("PING: %.0f ms", Ping)
+            AddGraphPoint(PingGraph, PingPoints, Ping, 300)
+
+            if Ping >= 300 then
+                if not PingAlertActive then
+                    PingAlertActive = true
+                    ShowNotification("HIGH PING", string.format("Network latency reached %.0f ms", Ping), C.Cyan)
+                end
+            else
+                PingAlertActive = false
+            end
+
+            if Ping >= 180 then
+                if not LastPingWarning then
+                    LastPingWarning = true
+                    PingLabel.TextColor3 = C.Red
+                end
+            else
+                LastPingWarning = false
+                PingLabel.TextColor3 = C.White
+            end
+        end
+    end
+end)
+
+task.spawn(function()
+    while GUI.Parent do
+        task.wait(1)
+        pcall(function() UpdateInventory() end)
+    end
+end)
+
+--========================================================
+-- SIDEBAR NAVIGATION
+--========================================================
+
+NavHolder = Create("ScrollingFrame", {
+    Name = "NavigationHolder",
+    Position = UDim2.new(0, 7, 0, 82),
+    Size = UDim2.new(1, -14, 1, -90),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    ScrollBarThickness = 2,
+    ScrollBarImageColor3 = C.Cyan,
+    CanvasSize = UDim2.new(0, 0, 0, 0),
+    AutomaticCanvasSize = Enum.AutomaticSize.Y,
+    ScrollingDirection = Enum.ScrollingDirection.Y,
+    Parent = Sidebar
+})
+
+Create("UIListLayout", {
+    Padding = UDim.new(0, 8),
+    SortOrder = Enum.SortOrder.LayoutOrder,
+    Parent = NavHolder
+})
+
+function SelectPage(name)
+    if not Pages[name] then return end
+    CurrentPage = name
+
+    for PageName, Page in pairs(Pages) do
+        Page.Visible = PageName == name
+        if Page.Visible then Page.CanvasPosition = Vector2.new(0, 0) end
+    end
+
+    for TabName, Tab in pairs(Tabs) do
+        local Selected = TabName == name
+        Animate(Tab, { BackgroundColor3 = Selected and C.Selected or C.Sidebar }, 0.15)
+
+        local Stroke = Tab:FindFirstChildOfClass("UIStroke")
+        if Stroke then Animate(Stroke, { Transparency = Selected and 0.08 or 0.65 }, 0.15) end
+
+        local Indicator = Tab:FindFirstChild("ActiveIndicator")
+        if Indicator then Indicator.Visible = Selected end
+
+        local Icon = Tab:FindFirstChild("TabIcon")
+        if Icon then
+            Animate(Icon, {
+                ImageColor3 = Selected and C.White or C.Gray, 
+                ImageTransparency = Selected and 0 or 0.1
+            }, 0.15)
+        end
+    end
+end
+
+TabOrder = 0
+
+function AddTab(name, iconId, pageName)
+    TabOrder += 1
+    local Tab = Create("TextButton", {
+        Name = name .. "Tab",
+        Size = UDim2.new(1, 0, 0, 40),
+        BackgroundColor3 = C.Sidebar,
+        BorderSizePixel = 0,
+        Text = "",
+        AutoButtonColor = false,
+        LayoutOrder = TabOrder,
+        Parent = NavHolder
+    })
+
+    Round(Tab, 10)
+    Outline(Tab, C.Blue, 1, 0.65)
+
+    local Indicator = Create("Frame", {
+        Name = "ActiveIndicator",
+        Size = UDim2.new(0, 3, 0, 22),
+        Position = UDim2.new(0, 0, 0.5, -11),
+        BackgroundColor3 = C.Cyan,
+        BorderSizePixel = 0,
+        Visible = false,
+        Parent = Tab
+    })
+    Round(Indicator, 3)
+
+    Create("ImageLabel", {
+        Name = "TabIcon",
+        Size = UDim2.new(0, 26, 0, 26),
+        Position = UDim2.new(0, 12, 0.5, -13),
+        BackgroundTransparency = 1,
+        Image = "rbxassetid://" .. tostring(iconId),
+        ImageColor3 = C.Cyan,
+        ImageTransparency = 0.1, 
+        Parent = Tab
+    })
+
+    local NameLabel = Label(Tab, name, 11, C.White, Enum.Font.GothamSemibold)
+    NameLabel.Position = UDim2.new(0, 46, 0, 0)
+    NameLabel.Size = UDim2.new(1, -54, 1, 0)
+    NameLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+    Tabs[pageName] = Tab
+    Tab.Activated:Connect(function() SelectPage(pageName) end)
+    return Tab
+end
+
+AddTab("Home", 120064271639574, "Home")
+AddTab("Scripts", 15503803894, "Scripts") -- Fixed invisible decal
+AddTab("Player Status", 138566200642042, "Player Status")
+AddTab("Utilities", 102029480681177, "Utilities")
+AddTab("Settings", 100172491387807, "Settings")
+AddTab("About", 95288862175278, "About")
+
+MM2Entry.Activated:Connect(function() SelectPage("Murder Mystery 2") end)
+for _, BackButton in ipairs(BackButtons) do
+    BackButton.Activated:Connect(function() SelectPage("Scripts") end)
+end
+
+SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+    local Query = string.lower(SearchBox.Text)
+    local ShowMM2 = Query == "" or string.find("murder mystery 2", Query, 1, true) ~= nil or string.find("mm2", Query, 1, true) ~= nil
+    MM2Entry.Visible = ShowMM2
+    if CurrentPage == "Scripts" then ScriptsPage.CanvasPosition = Vector2.new(0, 0) end
+end)
+
+--========================================================
+-- WINDOW CONTROLS & STARTUP
+--========================================================
+
+for _, Page in pairs(Pages) do
+    Page.ScrollingEnabled = true
+    Page.Active = true
+end
+NavHolder.ScrollingEnabled = true
+NavHolder.Active = true
+
+Dragging = false
+DragStart = nil
+StartPosition = nil
+
+Header.InputBegan:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        Dragging = true
+        DragStart = Input.Position
+        StartPosition = Main.Position
+    end
+end)
+
+UIS.InputChanged:Connect(function(Input)
+    if Dragging and (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) then
+        local Delta = Input.Position - DragStart
+        Main.Position = UDim2.new(StartPosition.X.Scale, StartPosition.X.Offset + Delta.X, StartPosition.Y.Scale, StartPosition.Y.Offset + Delta.Y)
+    end
+end)
+
+UIS.InputEnded:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        Dragging = false
+    end
+end)
+
+WindowOpen = false
+NormalPosition = Main.Position
+NormalSize = Main.Size
+Main.Visible = false
+
+function OpenWindow()
+    if WindowOpen then return end
+    WindowOpen = true
+    Main.Visible = true
+    Main.Position = UDim2.new(NormalPosition.X.Scale, NormalPosition.X.Offset, NormalPosition.Y.Scale, NormalPosition.Y.Offset + 15)
+    Main.BackgroundTransparency = 0.25
+    Animate(Main, { Position = NormalPosition, BackgroundTransparency = 0.04 }, 0.22)
+end
+
+function CloseWindow()
+    if not WindowOpen then return end
+    WindowOpen = false
+    Animate(Main, { BackgroundTransparency = 1, Position = UDim2.new(Main.Position.X.Scale, Main.Position.X.Offset, Main.Position.Y.Scale, Main.Position.Y.Offset + 15) }, 0.18)
+    task.delay(0.2, function() if not WindowOpen then Main.Visible = false end end)
+end
+
+Maximized = false
+function ToggleMaximize()
+    if not Maximized then
+        NormalPosition = Main.Position
+        NormalSize = Main.Size
+        Maximized = true
+        local Viewport = Camera.ViewportSize
+        Animate(Main, { Position = UDim2.new(0, 8, 0, 8), Size = UDim2.new(0, math.max(250, Viewport.X - 16), 0, math.max(200, Viewport.Y - 16)) }, 0.2)
+    else
+        Maximized = false
+        Animate(Main, { Position = NormalPosition, Size = NormalSize }, 0.2)
+    end
+end
+
+OpenButton.Activated:Connect(OpenWindow)
+Close.Activated:Connect(CloseWindow)
+Maximize.Activated:Connect(ToggleMaximize)
+
+function AnimateGradient(Object)
+    for _, Item in ipairs(Object:GetDescendants()) do
+        if Item:IsA("UIGradient") then
+            local OriginalRotation = Item.Rotation
+            TweenService:Create(Item, TweenInfo.new(5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { Rotation = OriginalRotation + 35 }):Play()
+        end
+    end
+end
+AnimateGradient(Opener)
+AnimateGradient(Main)
+
+GlowTween = TweenService:Create(OpenerGlow, TweenInfo.new(1.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.55 })
+GlowTween:Play()
+
+Camera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
+    local Viewport = Camera.ViewportSize
+    if not Maximized then
+        Main.Size = UDim2.new(0, math.max(250, math.min(590, Viewport.X - 24)), 0, math.max(200, math.min(380, Viewport.Y - 50)))
+        NormalSize = Main.Size
+    else
+        Main.Size = UDim2.new(0, math.max(250, Viewport.X - 16), 0, math.max(200, Viewport.Y - 16))
+    end
+end)
+
+SelectPage("Home")
+Main.Visible = false
+WindowOpen = false
+
+print("PERFECT v1.2.0 - COMBAT & CLEANUP UPDATE LOADED")
